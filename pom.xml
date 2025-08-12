@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>mg</groupId>
-	<artifactId>majudge</artifactId>
+	<artifactId>5fruive</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>majudge</name>
+	<name>5fruive</name>
 	<description>Majudge with spring boot</description>
 	<url/>
 	<licenses>

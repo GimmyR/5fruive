@@ -3,9 +3,9 @@ package mg.ischool.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import mg.ischool.entity.Product;
+import mg.ischool.entity.Province;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface ProvinceRepository extends JpaRepository<Province, Integer> {
 
 }
