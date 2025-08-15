@@ -1,4 +1,4 @@
-package mg.ischool.entity;
+package mg.fruive.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
-public class Role {
+public class Province {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

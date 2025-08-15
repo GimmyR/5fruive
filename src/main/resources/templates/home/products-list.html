@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" class="d-flex flex-column col-lg-6 offset-lg-3">
+			<div th:each="product : ${ products }">
+				<img th:src="@{ images/banana-1.jpeg }">
+			</div>
+		</div>
+	</body>
+</html>

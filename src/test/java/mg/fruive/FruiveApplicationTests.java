@@ -1,4 +1,4 @@
-package mg.ischool;
+package mg.fruive;
 
 import java.util.List;
 
@@ -7,16 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 
-import mg.ischool.entity.Account;
-import mg.ischool.entity.Category;
-import mg.ischool.entity.Product;
-import mg.ischool.entity.Province;
-import mg.ischool.entity.Role;
-import mg.ischool.repository.AccountRepository;
-import mg.ischool.repository.CategoryRepository;
-import mg.ischool.repository.ProductRepository;
-import mg.ischool.repository.ProvinceRepository;
-import mg.ischool.repository.RoleRepository;
+import mg.fruive.entity.Account;
+import mg.fruive.entity.Category;
+import mg.fruive.entity.Product;
+import mg.fruive.entity.Province;
+import mg.fruive.entity.Role;
+import mg.fruive.repository.AccountRepository;
+import mg.fruive.repository.CategoryRepository;
+import mg.fruive.repository.ProductRepository;
+import mg.fruive.repository.ProvinceRepository;
+import mg.fruive.repository.RoleRepository;
 
 @SpringBootTest
 class FruiveApplicationTests {

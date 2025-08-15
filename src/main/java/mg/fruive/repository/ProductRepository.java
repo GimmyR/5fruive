@@ -1,9 +1,9 @@
-package mg.ischool.repository;
+package mg.fruive.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import mg.ischool.entity.Product;
+import mg.fruive.entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {

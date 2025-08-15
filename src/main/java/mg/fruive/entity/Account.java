@@ -1,4 +1,4 @@
-package mg.ischool.entity;
+package mg.fruive.entity;
 
 import java.util.List;
 
