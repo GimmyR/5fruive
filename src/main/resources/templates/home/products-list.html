@@ -2,8 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
 		<div th:fragment="copy" class="d-flex flex-column col-lg-6 offset-lg-3">
-			<div th:each="product : ${ products }">
-				<img th:src="@{ images/banana-1.jpeg }">
+			<div th:each="product,row : ${ products }" class="d-flex flex-row align-items-center product-item border-top">
+				<div class="col-2">
+					<img th:src="${ 'images/' + product.image }" class="img-fluid"/>
+				</div>
+				<div class="d-flex flex-column justify-content-center col-8 px-5">
+					<a href="#" th:text="${ product.name }" class="link-dark fs-4 fw-bold mb-1"></a>
+					<span class="mb-1">
+						<i class="bi bi-x-diamond"></i> <span th:text="${ product.category.name }"></span>
+					</span>
+					<span class="mb-1">
+						<i class="bi bi-geo-alt"></i> <span th:text="${ product.province.name }"></span>
+					</span>
+					<span>
+						<i class="bi bi-box2"></i> <span th:text="${ product.inStock }" class="fw-bold"></span><span th:if="${ product.unit != null }" th:text="${ ' ' + product.unit }"></span>
+					</span>
+				</div>
+				<div class="d-flex flex-column justify-content-center align-items-center col-2">
+					<span class="mb-1">
+						<i class="bi bi-tag"></i> <span th:text="${ product.price }" class="fw-bold"></span> Ariary <span th:text="${ product.unit == null ? 'per unit' : '/ ' + product.unit }"></span>
+					</span>
+					<input type="text" class="col-12 form-control mb-2"/>
+					<button type="button" class="col-12 btn btn-warning">
+						<i class="bi bi-plus-lg me-1"></i>Add to cart
+					</button>
+				</div>
 			</div>
 		</div>
 	</body>
