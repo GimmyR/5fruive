@@ -104,10 +104,9 @@ class FruiveApplicationTests {
 	/*@Test
 	void testProduct() {
 		
-		//Category category = categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).getFirst();
-		//Province province = provinceRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).getFirst();
-		//Product p = new Product(null, category, province, "Banana", 10000.0, 2000.0, "kg");
-		//productRepository.save(p);
+		Category category = categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).get(1);
+		List<Province> provinces = provinceRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		productRepository.save(new Product(null, category, provinces.get(0), "Radish", 21000.0, 800.0, "kg", "20.jpg"));
 		
 		productRepository.findAll().forEach(product -> System.out.println(product.getName()));
 		
