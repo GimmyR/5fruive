@@ -16,7 +16,7 @@ import mg.fruive.repository.ProductRepository;
 @AllArgsConstructor
 public class ProductService {
 	
-	public static Integer ITEMS_PER_PAGE = 10;
+	public static Integer ITEMS_PER_PAGE = 9;
 	
 	private ProductRepository productRepository;
 	

@@ -9,6 +9,7 @@
 	border: 1px solid #DCDCDC;
 }
 
-.product-item {
-	height: 150px;
+.products-item-image {
+	height: 300px;
+	object-fit: scale-down;
 }
