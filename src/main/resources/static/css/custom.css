@@ -13,3 +13,8 @@
 	height: 300px;
 	object-fit: scale-down;
 }
+
+.text-bg-very-dark {
+	background-color: black;
+	color: white;
+}

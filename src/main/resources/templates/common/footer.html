@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" class="container-fluid text-bg-dark mt-3 px-0">
+			<div class="d-flex flex-column align-items-center">
+				<!-- SOCIAL MEDIAS -->
+				<div th:replace="~{ common/socials :: copy }"></div>
+				
+				<!-- NAVIGATION LINKS -->
+				<div th:replace="~{ common/nav-links :: copy }"></div>
+				
+				<!-- COPYRIGHT -->
+				<div th:replace="~{ common/copyright :: copy }"></div>
+			</div>
+		</div>
+	</body>
+</html>
