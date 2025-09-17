@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<div th:fragment="copy" class="d-flex flex-column mt-4">
+		<div th:fragment="copy" class="d-flex flex-column pt-5">
 			<div th:replace="~{ home/products-item :: copy }"></div>
 			<div th:insert="~{ home/pagination :: copy }" class="d-flex flex-row justify-content-center mt-1">Page navigation</div>
 		</div>

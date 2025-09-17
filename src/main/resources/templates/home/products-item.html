@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<div class="min-vh-100" th:fragment="copy">
+		<div class="min-vh-100 pt-5" th:fragment="copy">
 			<div class="d-flex flex-wrap">
 				<div th:each="product,row : ${ products }" class="d-flex flex-row justify-content-center col-12 col-md-6 col-lg-4 mb-4">
 					<div class="d-flex flex-column col-8 col-md-10 col-lg-11 border pb-3">
-						<img th:src="${ 'images/' + product.image }" class="img-fluid products-item-image"/>
+						<img th:src="${ '/images/' + product.image }" class="img-fluid products-item-image"/>
 						<div class="d-flex flex-row justify-content-between align-items-center px-3 my-2">
-							<a href="#" th:text="${ product.name }" class="text-dark text-decoration-none fs-4 fw-bold"></a>
+							<a th:href="${ '/product/' + product.id }" th:text="${ product.name }" class="text-dark text-decoration-none fs-4 fw-bold"></a>
 							<span>
 								<i class="bi bi-tag"></i> <span th:text="${ product.price }" class="fw-bold"></span> Ariary <span th:text="${ product.unit == null ? 'per unit' : '/ ' + product.unit }"></span>
 							</span>
 						</div>
 						<div class="input-group px-3">
-							<input type="text" class="form-control" th:placeholder="${ 'Amount in ' + product.unit }"/>
+							<input type="number" class="form-control" th:placeholder="${ 'Amount in ' + product.unit }"/>
 							<button type="button" class="btn btn-warning">
 								<i class="bi bi-plus-lg me-1"></i>Add to cart
 							</button>

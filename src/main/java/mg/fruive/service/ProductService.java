@@ -1,6 +1,7 @@
 package mg.fruive.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Product;
+import mg.fruive.exception.NotFoundException;
 import mg.fruive.repository.ProductRepository;
 
 @Service
@@ -46,6 +48,20 @@ public class ProductService {
 		if(ratio > intRatio)
 			return intRatio + 1;
 		else return intRatio;
+		
+	}
+	
+	public Product findUnique(Model model, Integer id) throws NotFoundException {
+		
+		Optional<Product> opt = productRepository.findById(id);
+		
+		if(opt.isEmpty())
+			throw new NotFoundException("Product not found : " + id);
+		
+		if(model != null)
+			model.addAttribute("product", opt.get());
+		
+		return opt.get();
 		
 	}
 
