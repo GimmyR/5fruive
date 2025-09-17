@@ -39,14 +39,12 @@ public class ProductController {
 		try {
 		
 			productService.findUnique(model, productId);
-			return new ModelAndView("product/index");
 		
 		} catch (NotFoundException e) {
 			
 			errorService.defineError(model, 404, e.getMessage());
-			return new ModelAndView("error/index");
 			
-		}
+		} return new ModelAndView("product/index");
 		
 	}
 

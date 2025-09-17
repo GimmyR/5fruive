@@ -18,3 +18,11 @@
 	background-color: black;
 	color: white;
 }
+
+.http-status {
+	font-size: 250px;
+}
+
+.error-message {
+	font-size: 55px;
+}

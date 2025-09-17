@@ -9,7 +9,7 @@ public class ErrorService {
 	public void defineError(Model model, Integer status, String message) {
 		
 		model.addAttribute("status", status);
-		model.addAttribute("message", message);
+		model.addAttribute("errorMessage", message);
 		
 	}
 

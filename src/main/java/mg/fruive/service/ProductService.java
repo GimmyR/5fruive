@@ -56,7 +56,7 @@ public class ProductService {
 		Optional<Product> opt = productRepository.findById(id);
 		
 		if(opt.isEmpty())
-			throw new NotFoundException("Product not found : " + id);
+			throw new NotFoundException("Product not found");
 		
 		if(model != null)
 			model.addAttribute("product", opt.get());

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<template th:replace="~{ common/head }"></template>
-		<title><th:block th:text="${ product.name }">Product name</th:block> - 5Fruive</title>
+		<title><th:block th:text="${ errorMessage == null ? product.name : errorMessage }">Product name</th:block> - 5Fruive</title>
 	</head>
 	<body>
 		<!-- HEADER -->
@@ -10,6 +10,7 @@
 		
 		<!-- CONTENT -->
 		<div th:replace="~{ product/product-details :: copy }"></div>
+		<div th:replace="~{ error/dynamic :: copy }"></div>
 		
 		<!-- FOOTER -->
 		<div th:replace="~{ common/footer :: copy }"></div>
