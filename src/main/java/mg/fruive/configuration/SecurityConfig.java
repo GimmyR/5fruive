@@ -21,6 +21,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		
 		// Manage correctly what default URL to use on success for login or logout
+		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
 		httpSecurity.formLogin().loginPage("/sign-in").permitAll();
 		
 		// Transaction on Front-Office and all Back-Office need authentication
