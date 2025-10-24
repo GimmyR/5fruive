@@ -3,6 +3,7 @@ package mg.fruive.controller;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,48 @@ public class CartRestController {
 		try {
 			
 			response.data = cartService.addToCart(productId, amount);
+			
+		} catch (NullPointerException e) {
+			
+			response = new FruiveResponse(400, e.getMessage(), null);
+			
+		} catch (NotFoundException e) {
+			
+			response = new FruiveResponse(404, e.getMessage(), null);
+			
+		} catch (OutOfStockException e) {
+			
+			response = new FruiveResponse(400, e.getMessage(), null);
+			
+		} return response;
+		
+	}
+	
+	@PostMapping("/api/cart/remove/{productId}")
+	public FruiveResponse removeProduct(@PathVariable Integer productId) {
+		
+		FruiveResponse response = new FruiveResponse(201, "Product is successfully removed from cart !", null);
+		
+		try {
+			
+			cartService.removeProduct(productId);
+			
+		} catch (NotFoundException e) {
+			
+			response = new FruiveResponse(404, e.getMessage(), null);
+			
+		} return response;
+		
+	}
+	
+	@PostMapping("/api/cart/replace")
+	public FruiveResponse replaceInCart(@RequestParam(required = false) Integer productId, @RequestParam(required = false) Float amount) {
+		
+		FruiveResponse response = new FruiveResponse(201, "Product saved in cart !", null);
+		
+		try {
+			
+			response.data = cartService.replaceInCart(productId, amount);
 			
 		} catch (NullPointerException e) {
 			

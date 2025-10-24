@@ -32,11 +32,41 @@ const getCartSize = async () => {
 };
 
 const removeProduct = async (product) => {
-	console.log("Remove this : " + product.id);
+	const response = await fetch("/api/cart/remove/" + product.id, { method: "POST" });
+	
+	if(response.ok)
+		document.location.reload();
 };
 
 const resetCart = () => {
 	document.location.replace("/cart/reset");
+};
+
+const replaceInCart = async (productId, amount) => {
+	const data = new FormData();
+	data.append("productId", productId);
+	data.append("amount", amount);
+	
+	const response = await fetch("/api/cart/replace", {
+		method: "POST",
+		body: data
+	});
+	
+	const res = await response.json();
+	
+	if(res.status != 201)
+		throw new Error(res.message);
+};
+
+const saveCart = async () => {
+	products.forEach(product => {
+		const input = document.getElementById("in-cart-" + product.id);
+		replaceInCart(product.id, input.value);
+	});
+	
+	setTimeout(() => {
+		document.location.reload();
+	}, 1000);
 };
 
 getCartSize();

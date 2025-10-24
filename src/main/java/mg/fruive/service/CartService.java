@@ -123,5 +123,45 @@ public class CartService {
 		httpSession.removeAttribute("cart");
 		
 	}
+	
+	public void removeProduct(Integer productId) throws NotFoundException {
+		
+		Map<Integer, Float> cart = this.getCart();
+		
+		if(cart != null) {
+			
+			if(cart.remove(productId) == null)
+				throw new NotFoundException("Product not found in cart.");
+			
+			if(cart.size() > 0)
+				httpSession.setAttribute("cart", cart);
+			
+			else this.resetCart();
+			
+		}
+		
+	}
+	
+	public Integer replaceInCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException {
+		
+		this.validateInput(productId, amount);
+		Map<Integer, Float> cart = this.getCart();
+		
+		if(cart == null)
+			cart = new HashMap<>();
+		
+		return this.putInCart(cart, productId, amount);
+		
+	}
+	
+	private Integer putInCart(Map<Integer, Float> cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
+		
+		Product product = this.findProduct(productId);
+		this.validateInStock(product, amount);
+		cart.put(productId, amount);
+		httpSession.setAttribute("cart", cart);
+		return cart.size();
+		
+	}
 
 }
