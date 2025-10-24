@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import mg.fruive.entity.CartEntry;
 import mg.fruive.entity.Product;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
@@ -142,25 +143,41 @@ public class CartService {
 		
 	}
 	
-	public Integer replaceInCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException {
+	public void saveCart(List<CartEntry> entries) throws NotFoundException, OutOfStockException {
 		
-		this.validateInput(productId, amount);
+		this.validateCart(entries);
+		this.saveCartEntries(entries);
+		
+	}
+	
+	private void validateCart(List<CartEntry> entries) throws NotFoundException, OutOfStockException {
+		
+		for(int i = 0; i < entries.size(); i++) {
+			
+			Integer productId = entries.get(i).getProductId();
+			Float amount = entries.get(i).getAmount();
+			this.validateInput(productId, amount);
+			Product product = this.findProduct(productId);
+			this.validateInStock(product, amount);
+			
+		}
+		
+	}
+	
+	private void saveCartEntries(List<CartEntry> entries) {
+		
 		Map<Integer, Float> cart = this.getCart();
 		
 		if(cart == null)
 			cart = new HashMap<>();
 		
-		return this.putInCart(cart, productId, amount);
-		
-	}
-	
-	private Integer putInCart(Map<Integer, Float> cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
-		
-		Product product = this.findProduct(productId);
-		this.validateInStock(product, amount);
-		cart.put(productId, amount);
-		httpSession.setAttribute("cart", cart);
-		return cart.size();
+		for(int i = 0; i < entries.size(); i++) {
+			
+			Integer productId = entries.get(i).getProductId();
+			Float amount = entries.get(i).getAmount();
+			cart.put(productId, amount);
+			
+		} httpSession.setAttribute("cart", cart);
 		
 	}
 

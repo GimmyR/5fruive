@@ -4,7 +4,7 @@
 		<script th:inline="javascript" th:fragment="copy">
 			var products = /*[[${products}]]*/ [];
 			
-			products.forEach((product) => {
+			products.forEach((product, index) => {
 				document.getElementById("button-remove-product-" + product.id).addEventListener("click", () => removeProduct(product));
 			});
 			

@@ -59,14 +59,31 @@ const replaceInCart = async (productId, amount) => {
 };
 
 const saveCart = async () => {
+	const entries = [];
+	
 	products.forEach(product => {
 		const input = document.getElementById("in-cart-" + product.id);
-		replaceInCart(product.id, input.value);
+		entries.push({ productId: product.id, amount: input.value });
 	});
 	
-	setTimeout(() => {
+	setTimeout(() => saveAllEntries(entries), 1000);
+};
+
+const saveAllEntries = async (entries) => {
+	const response = await fetch("/api/cart/save", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(entries)
+	});
+	
+	const res = await response.json();
+	
+	if(res.status == 201)
 		document.location.reload();
-	}, 1000);
+	
+	else throw new Error(res.message);
 };
 
 getCartSize();

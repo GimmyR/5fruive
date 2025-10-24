@@ -1,14 +1,17 @@
 package mg.fruive.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
+import mg.fruive.entity.CartEntry;
 import mg.fruive.entity.FruiveResponse;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
@@ -75,14 +78,14 @@ public class CartRestController {
 		
 	}
 	
-	@PostMapping("/api/cart/replace")
-	public FruiveResponse replaceInCart(@RequestParam(required = false) Integer productId, @RequestParam(required = false) Float amount) {
+	@PostMapping("/api/cart/save")
+	public FruiveResponse saveCart(@RequestBody List<CartEntry> entries) {
 		
-		FruiveResponse response = new FruiveResponse(201, "Product saved in cart !", null);
+		FruiveResponse response = new FruiveResponse(201, "Cart is successfully saved !", null);
 		
 		try {
 			
-			response.data = cartService.replaceInCart(productId, amount);
+			cartService.saveCart(entries);
 			
 		} catch (NullPointerException e) {
 			
