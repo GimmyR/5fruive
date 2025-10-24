@@ -1,7 +1,6 @@
 package mg.fruive.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +25,7 @@ public class CartRestController {
 	@GetMapping("/api/cart-size")
 	public FruiveResponse getCartSize() {
 		
-		FruiveResponse response = new FruiveResponse(200, null, 0);
-		Map<Integer, Float> cart = cartService.getCart();
-		
-		if(cart != null)
-			response.data = cartService.getCart().size();
-		
-		return response;
+		return new FruiveResponse(200, null, cartService.getCartSize());
 		
 	}
 	

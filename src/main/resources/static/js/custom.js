@@ -42,22 +42,6 @@ const resetCart = () => {
 	document.location.replace("/cart/reset");
 };
 
-const replaceInCart = async (productId, amount) => {
-	const data = new FormData();
-	data.append("productId", productId);
-	data.append("amount", amount);
-	
-	const response = await fetch("/api/cart/replace", {
-		method: "POST",
-		body: data
-	});
-	
-	const res = await response.json();
-	
-	if(res.status != 201)
-		throw new Error(res.message);
-};
-
 const saveCart = async () => {
 	const entries = [];
 	

@@ -1,9 +1,7 @@
 package mg.fruive.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +9,7 @@ import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import mg.fruive.entity.Cart;
 import mg.fruive.entity.CartEntry;
 import mg.fruive.entity.Product;
 import mg.fruive.exception.NotFoundException;
@@ -24,25 +23,35 @@ public class CartService {
 	private HttpSession httpSession;
 	private ProductRepository productRepository;
 	
-	@SuppressWarnings("unchecked")
-	public Map<Integer, Float> getCart() {
+	public Cart getCart() {
 		
 		Object cart = httpSession.getAttribute("cart");
 		
 		if(cart != null)
-			return (Map<Integer, Float>) cart;
+			return (Cart) cart;
 		
 		else return null;
+		
+	}
+	
+	public Integer getCartSize() {
+		
+		Cart cart = this.getCart();
+		
+		if(cart != null)
+			return cart.size();
+		
+		else return 0;
 		
 	}
 	
 	public Integer addToCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException {
 		
 		this.validateInput(productId, amount);
-		Map<Integer, Float> cart = this.getCart();
+		Cart cart = this.getCart();
 		
 		if(cart == null)
-			cart = new HashMap<>();
+			cart = new Cart();
 		
 		return this.addOrPut(cart, productId, amount);
 		
@@ -58,10 +67,10 @@ public class CartService {
 		
 	}
 	
-	private Integer addOrPut(Map<Integer, Float> cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
+	private Integer addOrPut(Cart cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
 		
 		Product product = this.findProduct(productId);
-		Float number = cart.get(productId);
+		Float number = cart.getAmountByProductId(productId);
 		
 		if(number == null)
 			number = (float) 0;
@@ -94,7 +103,7 @@ public class CartService {
 	
 	public void prepareCartView(Model model) throws NotFoundException {
 		
-		Map<Integer, Float> cart = this.getCart();
+		Cart cart = this.getCart();
 		
 		if(cart != null) {
 			
@@ -102,12 +111,12 @@ public class CartService {
 			List<Float> amounts = new ArrayList<Float>();
 			Float totalPrice = (float) 0;
 			
-			for(Map.Entry<Integer, Float> entry : cart.entrySet()) {
+			for(CartEntry entry : cart.getEntries()) {
 				
-				Product product = this.findProduct(entry.getKey());
+				Product product = this.findProduct(entry.getProductId());
 				products.add(product);
-				amounts.add(entry.getValue());
-				totalPrice += (float)(product.getPrice() * entry.getValue());
+				amounts.add(entry.getAmount());
+				totalPrice += (float)(product.getPrice() * entry.getAmount());
 				
 			}
 			
@@ -127,7 +136,7 @@ public class CartService {
 	
 	public void removeProduct(Integer productId) throws NotFoundException {
 		
-		Map<Integer, Float> cart = this.getCart();
+		Cart cart = this.getCart();
 		
 		if(cart != null) {
 			
@@ -166,10 +175,10 @@ public class CartService {
 	
 	private void saveCartEntries(List<CartEntry> entries) {
 		
-		Map<Integer, Float> cart = this.getCart();
+		Cart cart = this.getCart();
 		
 		if(cart == null)
-			cart = new HashMap<>();
+			cart = new Cart();
 		
 		for(int i = 0; i < entries.size(); i++) {
 			
