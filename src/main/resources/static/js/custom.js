@@ -26,9 +26,17 @@ const displayCartCounter = (size) => {
 };
 
 const getCartSize = async () => {
-	const response = await fetch("/api/cart");
+	const response = await fetch("/api/cart-size");
 	const res = await response.json();
 	displayCartCounter(res.data);
+};
+
+const removeProduct = async (product) => {
+	console.log("Remove this : " + product.id);
+};
+
+const resetCart = () => {
+	document.location.replace("/cart/reset");
 };
 
 getCartSize();

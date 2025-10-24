@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<script th:inline="javascript" th:fragment="copy">
+			var products = /*[[${products}]]*/ [];
+			
+			products.forEach((product) => {
+				document.getElementById("button-remove-product-" + product.id).addEventListener("click", () => removeProduct(product));
+			});
+			
+			document.getElementById("button-reset-cart").addEventListener("click", () => resetCart());
+		</script>
+	</body>
+</html>

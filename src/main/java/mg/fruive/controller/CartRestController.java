@@ -1,5 +1,7 @@
 package mg.fruive.controller;
 
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +19,15 @@ public class CartRestController {
 	
 	private CartService cartService;
 	
-	@GetMapping("/api/cart")
-	public FruiveResponse getCart() {
+	@GetMapping("/api/cart-size")
+	public FruiveResponse getCartSize() {
 		
-		FruiveResponse response = new FruiveResponse(200, null, null);
-		response.data = cartService.getCart().size();
+		FruiveResponse response = new FruiveResponse(200, null, 0);
+		Map<Integer, Float> cart = cartService.getCart();
+		
+		if(cart != null)
+			response.data = cartService.getCart().size();
+		
 		return response;
 		
 	}

@@ -1,10 +1,13 @@
 package mg.fruive.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -85,6 +88,39 @@ public class CartService {
 		
 		if(total > product.getInStock())
 			throw new OutOfStockException("Out of stock : " + total + " > " + product.getInStock());
+		
+	}
+	
+	public void prepareCartView(Model model) throws NotFoundException {
+		
+		Map<Integer, Float> cart = this.getCart();
+		
+		if(cart != null) {
+			
+			List<Product> products = new ArrayList<Product>();
+			List<Float> amounts = new ArrayList<Float>();
+			Float totalPrice = (float) 0;
+			
+			for(Map.Entry<Integer, Float> entry : cart.entrySet()) {
+				
+				Product product = this.findProduct(entry.getKey());
+				products.add(product);
+				amounts.add(entry.getValue());
+				totalPrice += (float)(product.getPrice() * entry.getValue());
+				
+			}
+			
+			model.addAttribute("products", products);
+			model.addAttribute("amounts", amounts);
+			model.addAttribute("totalPrice", totalPrice);
+			
+		}
+		
+	}
+	
+	public void resetCart() {
+		
+		httpSession.removeAttribute("cart");
 		
 	}
 
