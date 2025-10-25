@@ -17,10 +17,26 @@
 						<i class="bi bi-bag-fill text-warning fs-5"></i>
 						<span id="cart-counter" style="display: none;" class="position-absolute top-100 start-0 translate-middle badge rounded-pill bg-danger">8</span>
 					</a>
-					<a th:if="${ auth != null }" href="#" class="nav-link">
-						<i class="bi bi-person-circle text-warning"></i>
-					</a>
-					<a th:if="${ auth == null }" href="#" class="btn btn-warning">Sign in</a>
+					<a th:if="${ auth == null }" th:href="@{ /sign-in }" class="btn btn-warning">Sign in</a>
+					<div th:if="${ auth != null }" class="dropdown">
+						<a href="#" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-person-circle text-warning"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li>
+								<a href="#" class="dropdown-item text-center">Profile</a>
+							</li>
+							<li>
+								<a href="#" class="dropdown-item text-center">Settings</a>
+							</li>
+							<li><hr class="dropdown-divider"/></li>
+							<li>
+								<form th:action="@{ /logout }" method="post" class="dropdown-item">
+									<button type="submit" class="btn btn-danger col-12">Sign out</button>
+								</form>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</nav>

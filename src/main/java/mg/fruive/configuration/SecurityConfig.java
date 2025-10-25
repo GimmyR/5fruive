@@ -16,16 +16,20 @@ public class SecurityConfig {
 	
 	private UserDetailService userDetailService;
 	
-	@SuppressWarnings("removal")
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        // Disbale frame options for H2 Console
+		httpSecurity.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 		
-		// Manage correctly what default URL to use on success for login or logout
-		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
-		httpSecurity.formLogin().loginPage("/sign-in").permitAll();
+		// Disable CSRF for API and H2 Console
+		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/h2-console/**"));
+
+        // Use custom login page to sign in
+		httpSecurity.formLogin(login -> login.loginPage("/sign-in").permitAll());
 		
 		// Transaction on Front-Office and all Back-Office need authentication
-		httpSecurity.authorizeHttpRequests().anyRequest().permitAll();
+		httpSecurity.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 		httpSecurity.userDetailsService(userDetailService);
 		return httpSecurity.build();
 		
