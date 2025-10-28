@@ -50,7 +50,14 @@ const saveCart = async () => {
 		entries.push({ productId: product.id, amount: input.value });
 	});
 	
-	setTimeout(() => saveAllEntries(entries), 1000);
+	setTimeout(async () => {
+		const res = await saveAllEntries(entries);
+		
+		if(res.status == 201)
+			document.location.reload();
+		
+		else throw new Error(res.message);
+	}, 1000);
 };
 
 const saveAllEntries = async (entries) => {
@@ -62,12 +69,25 @@ const saveAllEntries = async (entries) => {
 		body: JSON.stringify(entries)
 	});
 	
-	const res = await response.json();
+	return await response.json();
+};
+
+const goToPaymentMethod = async () => {
+	const entries = [];
+		
+	products.forEach(product => {
+		const input = document.getElementById("in-cart-" + product.id);
+		entries.push({ productId: product.id, amount: input.value });
+	});
 	
-	if(res.status == 201)
-		document.location.reload();
-	
-	else throw new Error(res.message);
+	setTimeout(async () => {
+		const res = await saveAllEntries(entries);
+		
+		if(res.status == 201)
+			document.location.replace("/payment");
+		
+		else throw new Error(res.message);
+	}, 1000);
 };
 
 getCartSize();
