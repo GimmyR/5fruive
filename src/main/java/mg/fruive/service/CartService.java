@@ -20,7 +20,7 @@ import mg.fruive.repository.ProductRepository;
 @AllArgsConstructor
 public class CartService {
 	
-	private HttpSession httpSession;
+	private final HttpSession httpSession;
 	private ProductRepository productRepository;
 	
 	public Cart getCart() {
