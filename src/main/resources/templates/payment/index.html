@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<template th:replace="~{ common/head }"></template>
+		<title>Payment method - 5Fruive</title>
+	</head>
+	<body>
+		<!-- HEADER -->
+		<div th:replace="~{ common/header :: copy }"></div>
+		
+		<!-- CONTENT -->
+		<div th:replace="~{ payment/form :: copy }">Payment method</div>
+		
+		<!-- FOOTER -->
+		<div th:replace="~{ common/footer :: copy }"></div>
+		
+		<!-- JAVASCRIPT -->
+		<div th:replace="~{ common/scripts }"></div>
+	</body>
+</html>
