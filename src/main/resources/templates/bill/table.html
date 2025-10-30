@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" class="min-vh-100 mt-5 pt-5">
+			<p th:if="${ status != 201 && errorMessage != null }">
+				<span th:text="${ errorMessage }"></span>
+			</p>
+			<p th:if="${ purchase != null }">
+				<span th:text="${ purchase.purchaseDate }">PURCHASE DATE</span>
+			</p>
+		</div>
+	</body>
+</html>
