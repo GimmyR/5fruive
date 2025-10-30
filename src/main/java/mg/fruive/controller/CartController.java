@@ -5,6 +5,7 @@ import java.security.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.AllArgsConstructor;
@@ -20,9 +21,10 @@ public class CartController {
 	private ErrorService errorService;
 	
 	@GetMapping("/cart")
-	public ModelAndView getCart(Principal auth, Model model) {
+	public ModelAndView getCart(Principal auth, Model model, @RequestParam(required = false) String error) {
 		
 		model.addAttribute("auth", auth);
+		model.addAttribute("errorMessage", error);
 		
 		try {
 			

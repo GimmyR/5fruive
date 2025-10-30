@@ -83,14 +83,11 @@ public class PurchaseService {
 		
 		for(int i = 0; i < entries.size(); i++) {
 			
-			Product product = this.findProduct(entries.get(i).getProductId());
-			PurchaseDetail detail = new PurchaseDetail();
-			detail.setPurchase(purchase);
-			detail.setProduct(product);
-			this.validateAmount(product, entries.get(i).getAmount());
-			detail.setAmount(entries.get(i).getAmount());
-			detail = purchaseDetailRepository.save(detail);
+			CartEntry entry = entries.get(i);
+			Product product = this.findProduct(entry.getProductId());
+			PurchaseDetail detail = this.saveDetail(product, purchase, entry);
 			details.add(detail);
+			this.saveProduct(product, entry);
 			
 		}
 		
@@ -115,6 +112,36 @@ public class PurchaseService {
 		
 		if(product.getInStock() < amount)
 			throw new OutOfStockException(product.getName() + " in stock (" + product.getInStock() + " " + product.getUnit() + ") is lower than what you want to buy (" + amount + " " + product.getUnit() +")");
+		
+	}
+	
+	private PurchaseDetail saveDetail(Product product, Purchase purchase, CartEntry entry) throws OutOfStockException {
+		
+		PurchaseDetail detail = new PurchaseDetail();
+		detail.setPurchase(purchase);
+		detail.setProduct(product);
+		this.validateAmount(product, entry.getAmount());
+		detail.setAmount(entry.getAmount());
+		detail.setPrice((float) (detail.getAmount() * product.getPrice()));
+		return purchaseDetailRepository.save(detail);
+		
+	}
+	
+	private void saveProduct(Product product, CartEntry entry) {
+		
+		product.setInStock(product.getInStock() - entry.getAmount());
+		productRepository.save(product);
+		
+	}
+	
+	public Purchase findPurchase(Integer id) throws NotFoundException {
+		
+		Optional<Purchase> purchase = purchaseRepository.findById(id);
+		
+		if(purchase.isEmpty())
+			throw new NotFoundException("Purchase not found");
+		
+		else return purchase.get();
 		
 	}
 

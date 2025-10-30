@@ -28,5 +28,6 @@ public class PurchaseDetail {
 	private Product product;
 	
 	private Float amount;
+	private Float price;
 
 }

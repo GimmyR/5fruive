@@ -29,7 +29,7 @@ public class SecurityConfig {
 		httpSecurity.formLogin(login -> login.loginPage("/sign-in").permitAll());
 		
 		// Transaction on Front-Office and all Back-Office need authentication
-		httpSecurity.authorizeHttpRequests(authorize -> authorize.requestMatchers("/payment/**").authenticated());
+		httpSecurity.authorizeHttpRequests(authorize -> authorize.requestMatchers("/payment/**", "/bill/**").authenticated());
 		httpSecurity.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 		httpSecurity.userDetailsService(userDetailService);
 		return httpSecurity.build();
