@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
@@ -142,6 +143,17 @@ public class PurchaseService {
 			throw new NotFoundException("Purchase not found");
 		
 		else return purchase.get();
+		
+	}
+	
+	public void provideAccountFullname(Model model, Principal auth) throws NotFoundException {
+		
+		Optional<Account> account = accountRepository.findByUsername(auth.getName());
+		
+		if(account.isPresent())
+			model.addAttribute("fullname", account.get().getFirstname() + " " + account.get().getLastname());
+		
+		else throw new NotFoundException("Account not found");
 		
 	}
 

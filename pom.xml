@@ -96,6 +96,11 @@
     		<artifactId>thymeleaf-extras-java8time</artifactId>
     		<version>3.0.4.RELEASE</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jspdf</artifactId>
+		    <version>1.4.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
