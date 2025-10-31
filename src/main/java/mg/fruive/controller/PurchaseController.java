@@ -37,18 +37,19 @@ public class PurchaseController {
 	public ModelAndView buyProducts(Principal auth, Model model, @RequestParam(name = "card-code", required = false) String cardCode) {
 		
 		model.addAttribute("auth", auth);
-		String params = "";
+		Object result = purchaseService.buyProducts(auth, cardCode);
 		
-		try {
-		
-			Purchase purchase = purchaseService.buyProducts(auth, cardCode);
+		if(result instanceof Purchase) {
+			
+			Purchase purchase = (Purchase) result;
 			return new ModelAndView("redirect:/bill/" + purchase.getId());
-		
-		} catch (Exception e) {
 			
-			params = "?error=" + URLEncoder.encode(e.getMessage(), StandardCharsets.UTF_8);
+		} else {
 			
-		} return new ModelAndView("redirect:/cart" + params);
+			String params = "?error=" + URLEncoder.encode((String) result, StandardCharsets.UTF_8);
+			return new ModelAndView("redirect:/cart" + params);
+			
+		}
 		
 	}
 	

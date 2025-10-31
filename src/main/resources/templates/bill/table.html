@@ -3,8 +3,9 @@
 	<body>
 		<div th:fragment="copy" th:if="${ purchase != null }" class="container min-vh-100 mt-5 pt-5">
 			<div id="my-bill">
-				<h1 class="fs-2"><span class="text-decoration-underline">Purchaser</span> : <span th:text="${ fullname }" class="ms-3"></span></h1>
-				<h2 class="fs-3 mb-5"><span class="text-decoration-underline">Purchase date</span> : <span th:text="${ #temporals.format(purchase.purchaseDate, 'dd-MM-yyyy HH:mm') }" class="ms-3"></span></h2>
+				<h1 class="fs-3"><span class="text-decoration-underline">Purchase ID</span> : <span th:text="${ purchase.id }" class="ms-3"></span></h1>
+				<h1 class="fs-3"><span class="text-decoration-underline">Purchaser</span> : <span th:text="${ fullname }" class="ms-3"></span></h1>
+				<h1 class="fs-3 mb-5"><span class="text-decoration-underline">Purchase date</span> : <span th:text="${ #temporals.format(purchase.purchaseDate, 'dd-MM-yyyy HH:mm') }" class="ms-3"></span></h1>
 				<table class="table table-bordered">
 					<thead>
 						<tr>
