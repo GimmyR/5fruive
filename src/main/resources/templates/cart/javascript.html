@@ -4,13 +4,15 @@
 		<script th:inline="javascript" th:fragment="copy">
 			var products = /*[[${products}]]*/ [];
 			
-			products.forEach((product, index) => {
-				document.getElementById("button-remove-product-" + product.id).addEventListener("click", () => removeProduct(product));
-			});
-			
-			document.getElementById("button-reset-cart").addEventListener("click", () => resetCart());
-			document.getElementById("button-save-cart").addEventListener("click", () => saveCart());
-			document.getElementById("button-buy-products").addEventListener("click", () => goToPaymentMethod());
+			if(products) {
+				products.forEach((product, index) => {
+					document.getElementById("button-remove-product-" + product.id).addEventListener("click", () => removeProduct(product));
+				});
+				
+				document.getElementById("button-reset-cart").addEventListener("click", () => resetCart());
+				document.getElementById("button-save-cart").addEventListener("click", () => saveCart());
+				document.getElementById("button-buy-products").addEventListener("click", () => goToPaymentMethod());
+			}
 		</script>
 	</body>
 </html>
