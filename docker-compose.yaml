@@ -9,5 +9,5 @@ services:
       POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
-    volumes: # only on dev environment (please comment this and the line below on prod)
+    volumes: # please comment this and the line below on production environment
       - ./postgres_data:/var/lib/postgresql
