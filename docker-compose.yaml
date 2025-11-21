@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:trixie
+    container_name: postgres-5fruive
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: fruive
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql
