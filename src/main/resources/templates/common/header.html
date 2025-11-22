@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<nav th:fragment="copy" class="navbar fixed-top navbar-expand-lg text-bg-dark">
+		<nav th:fragment="copy" class="navbar fixed-top navbar-expand-md text-bg-dark">
 			<div class="container-fluid">
 				<a href="/" class="navbar-brand text-warning fw-bold">5Fruive</a>
 				<div class="collapse navbar-collapse">
-					<button class="col-lg-4 offset-lg-4 text-start bg-dark px-2 py-1" id="search-bar">
-						<i class="bi bi-search me-1"></i> Search
-					</button>
+					<form th:action="@{ / }" method="get" class="col-md-8 offset-md-2 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 text-start bg-dark px-2 py-1">
+						<div class="input-group">
+							<input type="text" class="form-control text-light bg-dark" id="search-bar" name="search" placeholder="Search product"/>
+							<button type="submit" class="btn btn-warning">
+								<i class="bi bi-search fs-6"></i>
+							</button>
+						</div>
+					</form>
 				</div>
 				<div class="d-flex align-items-center">
-					<a href="#" class="nav-link navbar-toggler">
+					<a href="#" class="nav-link navbar-toggler" data-bs-toggle="modal" data-bs-target="#search-modal">
 						<i class="bi bi-search text-warning fs-6"></i>
 					</a>
 					<a href="/cart" class="position-relative nav-link me-3">

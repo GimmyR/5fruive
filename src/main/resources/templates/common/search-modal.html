@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" class="modal fade pt-5" id="search-modal" tabindex="-1" aria-labelledby="search-modal-label" aria-hidden="true">
+			<div class="modal-dialog modal-lg pt-2">
+				<div class="modal-content">
+					<div class="modal-body px-3">
+						<form th:action="@{ / }" method="get">
+							<input type="text" class="form-control mb-3" name="search" placeholder="Product name"/>
+							<div class="d-flex flex-row">
+								<div class="col-6 pe-2">
+									<button class="btn btn-secondary col-12" data-bs-dismiss="modal">Cancel</button>
+								</div>
+								<div class="col-6">
+									<button class="btn btn-warning col-12">Search</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

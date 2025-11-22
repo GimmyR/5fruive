@@ -1,7 +1,9 @@
 #search-bar {
-	color: #AAAAAA;
 	border: 1px solid #AAAAAA;
-	border-radius: 5px;
+}
+
+#search-bar::placeholder {
+	color: #AAAAAA;
 }
 
 #search-bar:hover {
