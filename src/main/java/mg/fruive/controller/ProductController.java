@@ -23,9 +23,9 @@ public class ProductController {
 	private ErrorService errorService;
 	
 	@GetMapping("/")
-	public ModelAndView getHome(Principal auth, Model model, @RequestParam(name = "p", required = false) Integer page) {
+	public ModelAndView getHome(Principal auth, Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
 		
-		productService.findAll(model, page);
+		productService.findAll(model, search, page);
 		model.addAttribute("auth", auth);
 		return new ModelAndView("home/index");
 		

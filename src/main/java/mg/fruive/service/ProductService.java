@@ -1,5 +1,7 @@
 package mg.fruive.service;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,32 +24,28 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	
-	public List<Product> findAll(Model model, Integer page) {
+	public List<Product> findAll(Model model, String search, Integer page) {
+		
+		Page<Product> products = null;
 		
 		if(page == null)
 			page = 0;
 		
-		Page<Product> products = productRepository.findAll(PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
+		if(search != null)
+			products = productRepository.findByNameLikeIgnoreCase("%" + search + "%", PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
+		
+		else products = productRepository.findAll(PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
 		
 		if(model != null) {
 			
 			model.addAttribute("products", products.toList());
-			model.addAttribute("numberOfPages", this.countPages());
+			model.addAttribute("numberOfPages", products.getTotalPages());
 			model.addAttribute("selectedPage", page);
 			
+			if(search != null)
+				model.addAttribute("search", URLEncoder.encode(search, StandardCharsets.UTF_8));
+			
 		} return products.toList();
-		
-	}
-	
-	private Integer countPages() {
-		
-		List<Product> products = productRepository.findAll();
-		Double ratio = ((double)products.size()) / ((double)ITEMS_PER_PAGE);
-		Integer intRatio = ratio.intValue();
-		
-		if(ratio > intRatio)
-			return intRatio + 1;
-		else return intRatio;
 		
 	}
 	
