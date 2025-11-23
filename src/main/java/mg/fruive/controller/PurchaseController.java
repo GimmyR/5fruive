@@ -71,5 +71,14 @@ public class PurchaseController {
 		} return new ModelAndView("bill/index");
 		
 	}
+	
+	@GetMapping("/bo/dashboard")
+	public ModelAndView getDashboard(Principal auth, Model model) {
+		
+		model.addAttribute("auth", auth);
+		model.addAttribute("active", "dashboard");
+		return new ModelAndView("dashboard/index");
+		
+	}
 
 }

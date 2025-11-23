@@ -30,6 +30,7 @@ public class SecurityConfig {
 		
 		// Transaction on Front-Office and all Back-Office need authentication
 		httpSecurity.authorizeHttpRequests(authorize -> authorize.requestMatchers("/payment/**", "/bill/**").authenticated());
+		httpSecurity.authorizeHttpRequests(authorize -> authorize.requestMatchers("/bo/**").hasRole("Admin"));
 		httpSecurity.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
 		httpSecurity.userDetailsService(userDetailService);
 		return httpSecurity.build();

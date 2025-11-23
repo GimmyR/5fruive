@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<header th:fragment="copy" class="navbar fixed-top navbar-expand-md text-bg-dark">
+			<div class="container-fluid">
+				<a href="/" class="navbar-brand text-warning fw-bold">5Fruive</a>
+				<div class="d-flex align-items-center">
+					<div class="dropdown">
+						<a href="#" class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-person-circle text-warning"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li>
+								<a href="#" class="dropdown-item text-center">Settings</a>
+							</li>
+							<li><hr class="dropdown-divider"/></li>
+							<li>
+								<form th:action="@{ /logout }" method="post" class="dropdown-item">
+									<button type="submit" class="btn btn-danger col-12">Sign out</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</header>
+	</body>
+</html>

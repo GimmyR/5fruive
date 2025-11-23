@@ -29,6 +29,7 @@ public class UserDetailService implements UserDetailsService {
 		return User
 				.withUsername(account.get().getUsername())
 				.password(String.format("{noop}%s", account.get().getPassword()))
+				.roles(account.get().getRoles().stream().map(role -> role.getName()).toArray(String[]::new))
 				.build();
 		
 	}
