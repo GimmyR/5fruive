@@ -30,13 +30,12 @@
 }
 
 .bo-main-content {
-	margin-left: 18px;
 	border-left: 1px solid #DEDEDE;
+	min-height: 100%;
 }
 
 @media(min-width: 768px) {
 	.bo-main-content {
-		margin-left: 0px;
 		border-left: 0px;
 	}
 }
