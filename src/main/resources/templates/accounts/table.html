@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div class="d-flex flex-row justify-content-center pt-4 pt-md-5 px-3 px-md-4 bo-main-content" th:fragment="copy">
+			<div class="col-12 col-xl-10 col-xxl-8">
+				<table class="table table-bordered text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Firstame</th>
+							<th>Lastname</th>
+							<th>Username</th>
+							<th>Roles</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="account : ${ accounts }">
+							<td th:text="${ account.id }">Account ID</td>
+							<td th:text="${ account.firstname }">Account firstname</td>
+							<td th:text="${ account.lastname }">Account lastname</td>
+							<td th:text="${ account.username }">Account username</td>
+							<td>
+								<span th:each="role, iter : ${ account.roles }" th:text="${ role.name + (iter.index < (account.roles.size - 1) ? ', ' : '') }">Account role</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
