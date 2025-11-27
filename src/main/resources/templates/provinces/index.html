@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<template th:replace="~{ common/head }"></template>
+		<title>Provinces - 5Fruive</title>
+	</head>
+	<body>
+		<!-- HEADER -->
+		<div th:replace="~{ common/bo-header :: copy }"></div>
+		
+		<!-- MAIN CONTENT -->
+		<div class="d-flex flex-row min-vh-100 position-relative">
+			<div th:replace="~{ common/bo-navigation :: copy }"></div>
+			<button type="button" class="btn btn-secondary position-fixed top-50 start-0 d-block d-md-none ms-3" data-bs-toggle="offcanvas" data-bs-target="#navigation">
+				<i class="bi bi-layout-sidebar-inset"></i>
+			</button>
+			<div class="col-12 col-md-9 col-lg-10 col-xxl-11 mt-5 ps-3">
+				<div th:replace="~{ provinces/table :: copy }"></div>
+			</div>
+		</div>
+		
+		<!-- JAVASCRIPT -->
+		<div th:replace="~{ common/bo-scripts }"></div>
+	</body>
+</html>
