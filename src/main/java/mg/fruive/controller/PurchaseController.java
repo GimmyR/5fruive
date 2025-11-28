@@ -80,5 +80,14 @@ public class PurchaseController {
 		return new ModelAndView("dashboard/index");
 		
 	}
+	
+	@GetMapping("/bo/purchases")
+	public ModelAndView getPurchases(Model model) {
+		
+		model.addAttribute("active", "purchases");
+		purchaseService.findAll(model);
+		return new ModelAndView("purchases/index");
+		
+	}
 
 }

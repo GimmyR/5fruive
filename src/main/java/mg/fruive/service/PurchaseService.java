@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -194,6 +195,17 @@ public class PurchaseService {
 			model.addAttribute("fullname", account.get().getFirstname() + " " + account.get().getLastname());
 		
 		else throw new NotFoundException("Account not found");
+		
+	}
+	
+	public List<Purchase> findAll(Model model) {
+		
+		List<Purchase> purchases = purchaseRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		
+		if(model != null)
+			model.addAttribute("purchases", purchases);
+		
+		return purchases;
 		
 	}
 

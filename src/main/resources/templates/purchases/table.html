@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div class="d-flex flex-row justify-content-center pt-4 pt-md-5 px-3 px-md-4 bo-main-content" th:fragment="copy">
+			<div class="table-responsive col-12 col-lg-6 col-xl-5 col-xxl-4">
+				<table class="table table-bordered text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Purchase date</th>
+							<th>Purchaser</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="purchase : ${ purchases }">
+							<td th:text="${ purchase.id }">Product ID</td>
+							<td th:text="${ #temporals.format(purchase.purchaseDate, 'dd/MM/yyyy HH:mm') }">Purchase date</td>
+							<td th:text="${ purchase.purchaser.username }">Purchaser username</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
