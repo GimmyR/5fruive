@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div class="d-flex flex-row justify-content-center pt-4 pt-md-5 px-3 px-md-4 bo-main-content" th:fragment="copy">
+			<div class="table-responsive col-12 col-xxl-10">
+				<table class="table table-bordered text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Category</th>
+							<th>Province</th>
+							<th>Name</th>
+							<th>In stock</th>
+							<th>Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="product : ${ products }">
+							<td th:text="${ product.id }">Product ID</td>
+							<td th:text="${ product.category.name }">Category name</td>
+							<td th:text="${ product.province.name }">CProvince name</td>
+							<td th:text="${ product.name }">Product name</td>
+							<td th:text="${ product.inStock + ' ' + product.unit }">In stock</td>
+							<td th:text="${ product.price + ' ariary / ' + product.unit  }">Category name</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

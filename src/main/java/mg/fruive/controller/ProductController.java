@@ -47,5 +47,14 @@ public class ProductController {
 		} return new ModelAndView("product/index");
 		
 	}
+	
+	@GetMapping("/bo/products")
+	public ModelAndView getProducts(Model model) {
+		
+		model.addAttribute("active", "products");
+		productService.findAll(model);
+		return new ModelAndView("products/index");
+		
+	}
 
 }
