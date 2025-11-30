@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
 		<div class="d-flex flex-row justify-content-center pt-4 pt-md-5 px-3 px-md-4 bo-main-content" th:fragment="copy">
-			<div class="table-responsive col-12 col-xxl-10">
+			<div class="table-responsive col-12 col-xxl-8">
 				<table class="table table-bordered text-center">
 					<thead>
 						<tr>
@@ -21,7 +21,7 @@
 							<td th:text="${ detail.purchase.purchaser.username }">Purchaser username</td>
 							<td th:text="${ detail.product.name }">Product name</td>
 							<td th:text="${ detail.amount + ' ' + detail.product.unit }">Amount</td>
-							<td th:text="${ detail.price + ' Ar' }">Price</td>
+							<td th:text="${ #numbers.formatDecimal(detail.price, 0, 0) + ' Ar' }">Price</td>
 						</tr>
 					</tbody>
 				</table>
