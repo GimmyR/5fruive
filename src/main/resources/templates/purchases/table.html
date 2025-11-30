@@ -2,20 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
 		<div class="d-flex flex-row justify-content-center pt-4 pt-md-5 px-3 px-md-4 bo-main-content" th:fragment="copy">
-			<div class="table-responsive col-12 col-lg-6 col-xl-5 col-xxl-4">
+			<div class="table-responsive col-12 col-xxl-10">
 				<table class="table table-bordered text-center">
 					<thead>
 						<tr>
 							<th>ID</th>
 							<th>Purchase date</th>
 							<th>Purchaser</th>
+							<th>Product</th>
+							<th>Amount</th>
+							<th>Price</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="purchase : ${ purchases }">
-							<td th:text="${ purchase.id }">Product ID</td>
-							<td th:text="${ #temporals.format(purchase.purchaseDate, 'dd/MM/yyyy HH:mm') }">Purchase date</td>
-							<td th:text="${ purchase.purchaser.username }">Purchaser username</td>
+						<tr th:each="detail : ${ details }">
+							<td th:text="${ detail.id }">Product ID</td>
+							<td th:text="${ #temporals.format(detail.purchase.purchaseDate, 'dd/MM/yyyy HH:mm') }">Purchase date</td>
+							<td th:text="${ detail.purchase.purchaser.username }">Purchaser username</td>
+							<td th:text="${ detail.product.name }">Product name</td>
+							<td th:text="${ detail.amount + ' ' + detail.product.unit }">Amount</td>
+							<td th:text="${ detail.price + ' Ar' }">Price</td>
 						</tr>
 					</tbody>
 				</table>
