@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.ErrorService;
-import mg.fruive.service.PurchaseDetailService;
 import mg.fruive.service.PurchaseService;
 
 @Controller
@@ -24,7 +23,6 @@ import mg.fruive.service.PurchaseService;
 public class PurchaseController {
 	
 	private PurchaseService purchaseService;
-	private PurchaseDetailService purchaseDetailService;
 	private ErrorService errorService;
 	
 	@GetMapping("/payment")
@@ -87,7 +85,7 @@ public class PurchaseController {
 	public ModelAndView getPurchases(Model model) {
 		
 		model.addAttribute("active", "purchases");
-		purchaseDetailService.findAll(model);
+		purchaseService.findAll(model);
 		return new ModelAndView("purchases/index");
 		
 	}

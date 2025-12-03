@@ -3,25 +3,29 @@
 	<body>
 		<div class="d-flex flex-row justify-content-center pt-4 pt-md-5 px-3 px-md-4 bo-main-content" th:fragment="copy">
 			<div class="table-responsive col-12 col-xxl-8">
-				<table class="table table-bordered table-hover text-center">
+				<table class="table table-bordered table-hover text-center align-middle">
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Purchase date</th>
+							<th>Date</th>
 							<th>Purchaser</th>
-							<th>Product</th>
-							<th>Amount</th>
-							<th>Price</th>
+							<th>Total price</th>
+							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="detail : ${ details }">
-							<td th:text="${ detail.id }">Product ID</td>
-							<td th:text="${ #temporals.format(detail.purchase.purchaseDate, 'dd/MM/yyyy HH:mm') }">Purchase date</td>
-							<td th:text="${ detail.purchase.purchaser.username }">Purchaser username</td>
-							<td th:text="${ detail.product.name }">Product name</td>
-							<td th:text="${ detail.amount + ' ' + detail.product.unit }">Amount</td>
-							<td th:text="${ #numbers.formatDecimal(detail.price, 0, 0) + ' Ar' }">Price</td>
+						<tr th:each="purchase : ${ purchases }">
+							<td th:text="${ purchase.id }">Product ID</td>
+							<td th:text="${ #temporals.format(purchase.purchaseDate, 'dd/MM/yyyy HH:mm') }">Purchase date</td>
+							<td th:text="${ purchase.purchaser.username }">Purchaser username</td>
+							<td th:text="${ #numbers.formatDecimal(#aggregates.sum(purchase.details.![price]), 0, 0) + ' Ar' }">Total price</td>
+							<td class="col-3 col-lg-2">
+								<button type="button" class="btn btn-warning">See details</button>
+							</td>
+							<td class="col-1">
+								<button type="button" class="btn btn-secondary">Refund</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
