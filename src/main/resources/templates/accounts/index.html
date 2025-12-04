@@ -11,10 +11,10 @@
 		<!-- MAIN CONTENT -->
 		<div class="d-flex flex-row min-vh-100 position-relative">
 			<div th:replace="~{ common/bo-navigation :: copy }"></div>
-			<button type="button" class="btn btn-secondary position-fixed top-50 start-0 d-block d-md-none ms-3" data-bs-toggle="offcanvas" data-bs-target="#navigation">
+			<button type="button" class="btn btn-secondary position-fixed top-50 start-0 d-block d-lg-none ms-3" data-bs-toggle="offcanvas" data-bs-target="#navigation">
 				<i class="bi bi-layout-sidebar-inset"></i>
 			</button>
-			<div class="col-12 col-md-9 col-lg-10 col-xxl-11 mt-5 ps-3">
+			<div class="col-12 col-lg-10 col-xxl-11 mt-5 ps-3">
 				<div th:replace="~{ accounts/table :: copy }"></div>
 			</div>
 		</div>
