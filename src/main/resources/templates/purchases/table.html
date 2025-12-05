@@ -21,7 +21,7 @@
 							<td th:text="${ purchase.purchaser.username }">Purchaser username</td>
 							<td th:text="${ #numbers.formatDecimal(#aggregates.sum(purchase.details.![price]), 0, 0) + ' Ar' }">Total price</td>
 							<td class="col-3 col-lg-2">
-								<button type="button" class="btn btn-warning">See details</button>
+								<a th:href="${ '/bo/purchases/' + purchase.id }" class="btn btn-warning">See details</a>
 							</td>
 							<td class="col-1">
 								<button type="button" class="btn btn-secondary">Refund</button>

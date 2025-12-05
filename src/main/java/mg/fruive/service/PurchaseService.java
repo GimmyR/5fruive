@@ -21,6 +21,7 @@ import mg.fruive.entity.CartEntry;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Purchase;
 import mg.fruive.entity.PurchaseDetail;
+import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.repository.AccountRepository;
@@ -176,7 +177,10 @@ public class PurchaseService {
 		
 	}
 	
-	public Purchase findPurchase(Integer id) throws NotFoundException {
+	public Purchase findPurchase(Integer id) throws NotFoundException, IsMissingException {
+		
+		if(id == null)
+			throw new IsMissingException("Purchase ID is missing");
 		
 		Optional<Purchase> purchase = purchaseRepository.findById(id);
 		

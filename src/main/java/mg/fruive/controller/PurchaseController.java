@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
+import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.ErrorService;
 import mg.fruive.service.PurchaseService;
@@ -64,7 +65,7 @@ public class PurchaseController {
 			model.addAttribute("purchase", purchase);
 			purchaseService.provideAccountFullname(model, auth);
 			
-		} catch (NotFoundException e) {
+		} catch (NotFoundException | IsMissingException e) {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			

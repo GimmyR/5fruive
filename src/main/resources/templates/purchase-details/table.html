@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div class="d-flex flex-row justify-content-center pt-4 pt-lg-5 px-3 px-lg-4 bo-main-content" th:fragment="copy">
+			<div class="table-responsive col-12 col-lg-7 col-xl-6 col-xxl-5">
+				<table class="table table-bordered table-hover text-center align-middle">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Product</th>
+							<th>Amount</th>
+							<th>Price</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="detail : ${ details }">
+							<td th:text="${ detail.id }">Product ID</td>
+							<td th:text="${ detail.product.name }">Product name</td>
+							<td th:text="${ detail.amount + ' ' + detail.product.unit }">Amount</td>
+							<td th:text="${ #numbers.formatDecimal(detail.price, 0, 0) + ' Ar' }">Price</td>
+							<td class="col-1">
+								<button type="button" class="btn btn-warning">Refund</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
