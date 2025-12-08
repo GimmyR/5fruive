@@ -9,14 +9,18 @@
 							<th>ID</th>
 							<th>Name</th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="province : ${ provinces }">
 							<td th:text="${ province.id }">Category ID</td>
 							<td th:text="${ province.name }">Category name</td>
-							<td class="col-3">
+							<td class="col-2">
 								<button type="button" class="btn btn-warning">Edit</button>
+							</td>
+							<td class="col-1">
+								<button type="button" class="btn btn-secondary">Remove</button>
 							</td>
 						</tr>
 					</tbody>
