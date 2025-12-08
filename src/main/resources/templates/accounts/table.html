@@ -12,6 +12,7 @@
 							<th>Username</th>
 							<th>Roles</th>
 							<th></th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -23,8 +24,11 @@
 							<td>
 								<span th:each="role, iter : ${ account.roles }" th:text="${ role.name + (iter.index < (account.roles.size - 1) ? ', ' : '') }">Account role</span>
 							</td>
+							<td class="col-2">
+								<button type="button" class="btn btn-warning">Edit roles</button>
+							</td>
 							<td class="col-1">
-								<button type="button" class="btn btn-warning">Advertise</button>
+								<button type="button" class="btn btn-secondary">Advertise</button>
 							</td>
 						</tr>
 					</tbody>
