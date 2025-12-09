@@ -3,11 +3,7 @@
 	<body>
 		<div class="d-flex flex-row justify-content-center pt-4 pt-lg-5 px-3 px-lg-4 bo-main-content" th:fragment="copy">
 			<div class="d-flex flex-column col-12 col-lg-6 col-xl-5 col-xxl-4">
-				<div class="d-flex flex-row justify-content-end mb-3">
-					<a href="#" class="btn btn-outline-secondary pe-3">
-						<i class="bi bi-plus-lg me-1"></i>Add province
-					</a>
-				</div>
+				<div th:replace="~{ provinces/header-buttons :: copy }"></div>
 				<table class="table table-bordered table-hover text-center align-middle">
 					<thead>
 						<tr>

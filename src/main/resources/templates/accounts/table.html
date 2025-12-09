@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
 		<div class="d-flex flex-row justify-content-center pt-4 pt-lg-5 px-3 px-lg-4 bo-main-content" th:fragment="copy">
-			<div class="col-12 col-xl-10 col-xxl-8">
+			<div class="d-flex flex-column col-12 col-xl-10 col-xxl-8">
+				<div th:replace="~{ accounts/header-buttons :: copy }"></div>
 				<table class="table table-bordered table-hover text-center align-middle">
 					<thead>
 						<tr>
@@ -28,7 +29,7 @@
 								<button type="button" class="btn btn-warning">Edit roles</button>
 							</td>
 							<td class="col-1">
-								<button type="button" class="btn btn-secondary">Advertise</button>
+								<button type="button" class="btn btn-dark">Advertise</button>
 							</td>
 						</tr>
 					</tbody>
