@@ -62,16 +62,5 @@ public class ProductService {
 		return opt.get();
 		
 	}
-	
-	public List<Product> findAll(Model model) {
-		
-		List<Product> products = productRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-		
-		if(model != null)
-			model.addAttribute("products", products);
-		
-		return products;
-		
-	}
 
 }

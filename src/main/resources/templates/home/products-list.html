@@ -3,7 +3,7 @@
 	<body>
 		<div th:fragment="copy" class="d-flex flex-column pt-5">
 			<div th:replace="~{ home/products-item :: copy }"></div>
-			<div th:insert="~{ home/pagination :: copy }" class="d-flex flex-row justify-content-center mt-1">Page navigation</div>
+			<div th:insert="~{ common/pagination :: copy }" class="d-flex flex-row justify-content-center mt-1">Page navigation</div>
 		</div>
 	</body>
 </html>

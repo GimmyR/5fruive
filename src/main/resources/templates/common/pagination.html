@@ -4,15 +4,15 @@
 		<nav aria-label="Page navigation" th:fragment="copy">
 			<ul class="pagination">
 				<li th:class="${ 'page-item me-2' } + ${ (selectedPage - 1) < 0 ? ' disabled' : '' }">
-					<a class="page-link" th:href="${ '/?' + (search != null ? 'search=' + search + '&' : '') + 'p=' + (selectedPage - 1) }">Previous</a>
+					<a class="page-link" th:href="${ (url != null ? url : '/')  + '?' + (search != null ? 'search=' + search + '&' : '') + 'p=' + (selectedPage - 1) }">Previous</a>
 				</li>
 				<th:block th:each="i : ${#numbers.sequence(1, numberOfPages, 1)}">
 					<li th:class="${ 'page-item me-2' } + ${ i == (selectedPage + 1)? ' active': '' }"  >
-						<a class="page-link" th:href="${ '/?' + (search != null ? 'search=' + search + '&' : '') + 'p=' + (i - 1) }" th:text="${ i }">Page number</a>
+						<a class="page-link" th:href="${ (url != null ? url : '/')  + '?' + (search != null ? 'search=' + search + '&' : '') + 'p=' + (i - 1) }" th:text="${ i }">Page number</a>
 					</li>
 				</th:block>
 				<li th:class="${ 'page-item' } + ${ (selectedPage + 1) > (numberOfPages - 1) ? ' disabled' : '' }">
-					<a class="page-link" th:href="${ '/?' + (search != null ? 'search=' + search + '&' : '') + 'p=' + (selectedPage + 1) }">Next</a>
+					<a class="page-link" th:href="${ (url != null ? url : '/')  + '?' + (search != null ? 'search=' + search + '&' : '') + 'p=' + (selectedPage + 1) }">Next</a>
 				</li>
 			</ul>
 		</nav>

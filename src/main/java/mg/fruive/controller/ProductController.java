@@ -49,10 +49,11 @@ public class ProductController {
 	}
 	
 	@GetMapping("/bo/products")
-	public ModelAndView getProducts(Model model) {
+	public ModelAndView getProducts(Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
 		
 		model.addAttribute("active", "products");
-		productService.findAll(model);
+		model.addAttribute("url", "/bo/products");
+		productService.findAll(model, search, page);
 		return new ModelAndView("products/index");
 		
 	}
