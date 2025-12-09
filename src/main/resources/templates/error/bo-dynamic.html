@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" class="h-100" th:if="${ errorMessage != null }">
+			<div class="h-100 d-flex flex-column justify-content-center align-items-center">
+				<h1 th:text="${ status }" class="http-status text-center">ERROR CODE</h1>
+				<h2 th:text="${ errorMessage }" class="error-message text-center">ERROR MESSAGE</h2>
+			</div>
+		</div>
+	</body>
+</html>
