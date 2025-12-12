@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="copy" th:if="${ product != null }" class="d-flex flex-row justify-content-center mt-5">
+			<form th:action="${ '/bo/restock/' + product.id }" method="post" class="d-flex flex-column col-lg-6 col-xl-5 col-xxl-4">
+				<div class="text-center mb-3">
+					<h1>Restocking <span th:text="${ product.name }">Product name</span></h1>
+					<p class="ps-3"><span class="text-decoration-underline">In stock</span> : <span th:text="${ product.inStock + ' ' + product.unit }" class="text-secondary">Product amount</span></p>
+				</div>
+				<div class="input-group">
+					<input type="number" class="form-control" th:placeholder="${ 'Amount in ' + product.unit }"/>
+					<button type="submit" class="btn btn-warning">Restock <span th:text="${ product.name }"></span></button>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
