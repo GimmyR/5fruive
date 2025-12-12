@@ -16,6 +16,7 @@
 								<th>Price</th>
 								<th></th>
 								<th></th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -27,6 +28,8 @@
 								<td th:text="${ #numbers.formatDecimal(product.inStock, 0, 2) + ' ' + product.unit }">In stock</td>
 								<td th:text="${ product.price + ' Ar / ' + product.unit  }">Category name</td>
 								<td class="col-1">
+									<a th:href="${ '/bo/restock/' + product.id }" class="btn btn-secondary">Restock</a>
+								</td><td class="col-1">
 									<button type="button" class="btn btn-warning">Edit</button>
 								</td>
 								<td class="col-1">
