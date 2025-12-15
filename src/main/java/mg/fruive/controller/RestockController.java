@@ -66,5 +66,13 @@ public class RestockController {
 		} return new ModelAndView("restock/save/index");
 		
 	}
+	
+	@GetMapping("/bo/restocks")
+	public ModelAndView getRestocks(Model model) {
+		
+		restockService.findAll(model);
+		return new ModelAndView("restock/index");
+		
+	}
 
 }

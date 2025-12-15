@@ -21,7 +21,7 @@ public class Restock {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private LocalDateTime purchaseDate;
+	private LocalDateTime restockDate;
 	
 	@ManyToOne
 	@JoinColumn

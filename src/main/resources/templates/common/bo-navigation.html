@@ -6,7 +6,7 @@
 				<h5 class="offcanvas-title" id="offcanvasLabel">Menu</h5>
 			    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#navigation" aria-label="Close"></button>
 			</div>
-			<div class="offcanvas-body nav flex-column text-center" th:with="options = ${ {'dashboard', 'accounts', 'provinces', 'products', 'purchases'} }">
+			<div class="offcanvas-body nav flex-column text-center" th:with="options = ${ {'dashboard', 'accounts', 'provinces', 'products', 'purchases', 'restocks'} }">
 				<a th:each="option : ${ options }" th:href="${ '/bo/' + option }" th:text="${ #strings.capitalize(option) }" th:class="${ 'nav-link py-3 border-top border-bottom ' + (active == option? 'text-primary disabled' : 'text-dark') }"></a>
 			</div>
 		</nav>

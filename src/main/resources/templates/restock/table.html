@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div class="d-flex flex-row justify-content-center pt-4 pt-lg-5 px-3 px-lg-4 bo-main-content" th:fragment="copy">
+			<div class="d-flex flex-column col-12 col-xl-10 col-xxl-8">
+				<div th:replace="~{ restock/header-buttons :: copy }"></div>
+				<div class="table-responsive mb-4">
+					<table class="table table-bordered table-hover text-center align-middle">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Date</th>
+								<th>Administrator</th>
+								<th>Product</th>
+								<th>Amount</th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="restock : ${ restocks }">
+								<td th:text="${ restock.id }">Restock ID</td>
+								<td th:text="${ #temporals.format(restock.restockDate, 'dd/MM/yyyy HH:mm') }">Restock date</td>
+								<td th:text="${ restock.administrator.username }">Administrator name</td>
+								<td th:text="${ restock.product.name }">Product name</td>
+								<td th:text="${ restock.amount + ' ' + restock.product.unit }">Restock amount</td>
+								<td class="col-1">
+									<button type="button" class="btn btn-warning">Edit</button>
+								</td>
+								<td class="col-1">
+									<button type="button" class="btn btn-dark">Remove</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

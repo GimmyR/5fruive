@@ -1,8 +1,11 @@
 package mg.fruive.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
@@ -23,12 +26,23 @@ public class RestockService {
 			throw new NegativeException("Amount value must be a positive value");
 		
 		Restock restock = new Restock();
-		restock.setPurchaseDate(LocalDateTime.now());
+		restock.setRestockDate(LocalDateTime.now());
 		restock.setAdministrator(administrator);
 		restock.setProduct(product);
 		restock.setAmount(amount);
 		
 		restockRepository.save(restock);
+		
+	}
+	
+	public List<Restock> findAll(Model model) {
+		
+		List<Restock> restocks = restockRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		
+		if(model != null)
+			model.addAttribute("restocks", restocks);
+		
+		return restocks;
 		
 	}
 
