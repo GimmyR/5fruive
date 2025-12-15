@@ -62,5 +62,11 @@ public class ProductService {
 		return opt.get();
 		
 	}
+	
+	public void update(Product product) {
+		
+		productRepository.save(product);
+		
+	}
 
 }
