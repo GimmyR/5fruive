@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Cart;
 import mg.fruive.entity.CartEntry;
+import mg.fruive.entity.MostPurchased;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Purchase;
 import mg.fruive.entity.PurchaseDetail;
@@ -25,6 +26,7 @@ import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.repository.AccountRepository;
+import mg.fruive.repository.MostPurchasedRepository;
 import mg.fruive.repository.ProductRepository;
 import mg.fruive.repository.PurchaseDetailRepository;
 import mg.fruive.repository.PurchaseRepository;
@@ -39,10 +41,11 @@ public class PurchaseService {
 	private PurchaseDetailRepository purchaseDetailRepository;
 	private ProductRepository productRepository;
 	private final TransactionTemplate transactionTemplate;
+	private MostPurchasedRepository mostPurchasedRepository;
 	
 	public PurchaseService(HttpSession httpSession, AccountRepository accountRepository,
 			PurchaseRepository purchaseRepository, PurchaseDetailRepository purchaseDetailRepository,
-			ProductRepository productRepository, PlatformTransactionManager transactionManager) {
+			ProductRepository productRepository, PlatformTransactionManager transactionManager, MostPurchasedRepository mostPurchasedRepository) {
 		
 		this.httpSession = httpSession;
 		this.accountRepository = accountRepository;
@@ -50,6 +53,7 @@ public class PurchaseService {
 		this.purchaseDetailRepository = purchaseDetailRepository;
 		this.productRepository = productRepository;
 		this.transactionTemplate = new TransactionTemplate(transactionManager);
+		this.mostPurchasedRepository = mostPurchasedRepository;
 		
 	}
 
@@ -210,6 +214,27 @@ public class PurchaseService {
 			model.addAttribute("purchases", purchases);
 		
 		return purchases;
+		
+	}
+	
+	public List<MostPurchased> findMostPurchased(Model model) {
+		
+		List<MostPurchased> result = mostPurchasedRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		
+		if(model != null) {
+			
+			List<String> labels = new ArrayList<String>();
+			List<Float> values = new ArrayList<Float>();
+			
+			result.forEach(purchase -> {
+				labels.add(purchase.getName());
+				values.add(purchase.getAmount());
+			});
+			
+			model.addAttribute("labels", labels);
+			model.addAttribute("values", values);
+			
+		} return result;
 		
 	}
 

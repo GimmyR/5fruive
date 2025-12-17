@@ -78,6 +78,7 @@ public class PurchaseController {
 		
 		model.addAttribute("auth", auth);
 		model.addAttribute("active", "dashboard");
+		purchaseService.findMostPurchased(model);
 		return new ModelAndView("dashboard/index");
 		
 	}
