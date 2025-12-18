@@ -26,3 +26,13 @@ Run the command :
 ```bash
 docker compose up --build
 ```
+
+## Feed the database
+
+Connect to the database by running the following command :
+
+```bash
+docker exec -it postgres-5fruive psql -U admin -d fruive
+```
+
+And paste the content of *appdata/database-data.sql* file.
