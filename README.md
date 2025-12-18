@@ -2,14 +2,14 @@
 
 **5Fruive** is an e-commerce application made with **Spring Boot** and **PostgreSQL**.
 
-## Prerequisite
+## Prerequisites
 
 * **Docker** version **29.0.2** (build **8108357**) or later
 * **Docker compose** version **2.40.3** or later
 
 ## Environment
 
-You need to have a *.env* file in root directory with the following content :
+You need to have a *.env* file in the root directory of the project with the following content :
 
 ```
 DB_HOST=db
