@@ -7,16 +7,28 @@
 * **Docker** version **29.0.2** (build **8108357**) or later
 * **Docker compose** version **2.40.3** or later
 
-## Environment
+## Feed the database
 
-You need to have a *.env* file in the root directory of the project with the following content :
+Run this command to run only database :
 
+```bash
+docker compose up db -d
 ```
-DB_HOST=db
-DB_PORT=5432
-DB_USER=admin
-DB_PASSWORD=123
-DB_NAME=fruive
+
+Then, run this command to connect to the database :
+
+```bash
+docker exec -it postgres-5fruive psql -U admin -d fruive
+```
+
+Copy the content of **appdata/database-data.sql** file and paste it there (don't forget to press **Enter**).
+
+Type ``exit`` (and press **Enter**) to quit the database.
+
+Shutdown the database by running this command :
+
+```bash
+docker compose down db
 ```
 
 ## Build and launch the application
@@ -26,13 +38,3 @@ Run the command :
 ```bash
 docker compose up --build
 ```
-
-## Feed the database
-
-Connect to the database by running the following command :
-
-```bash
-docker exec -it postgres-5fruive psql -U admin -d fruive
-```
-
-And paste the content of *appdata/database-data.sql* file.

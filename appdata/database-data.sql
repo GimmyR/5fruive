@@ -1,3 +1,90 @@
+CREATE SCHEMA IF NOT EXISTS "public";
+
+CREATE  TABLE "public".account ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	firstname            varchar(255)    ,
+	lastname             varchar(255)    ,
+	"password"           varchar(255)    ,
+	username             varchar(255)    ,
+	CONSTRAINT account_pkey PRIMARY KEY ( id )
+ );
+
+CREATE  TABLE "public".category ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	name                 varchar(255)    ,
+	CONSTRAINT category_pkey PRIMARY KEY ( id )
+ );
+
+CREATE  TABLE "public".province ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	name                 varchar(255)    ,
+	CONSTRAINT province_pkey PRIMARY KEY ( id )
+ );
+
+CREATE  TABLE "public".purchase ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	purchase_date        timestamp    ,
+	purchaser_id         integer    ,
+	CONSTRAINT purchase_pkey PRIMARY KEY ( id ),
+	CONSTRAINT fkm7jx4xmfqbxg2d2g8yqb7cc27 FOREIGN KEY ( purchaser_id ) REFERENCES "public".account( id )   
+ );
+
+CREATE  TABLE "public"."role" ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	name                 varchar(255)    ,
+	CONSTRAINT role_pkey PRIMARY KEY ( id )
+ );
+
+CREATE  TABLE "public".account_roles ( 
+	account_id           integer  NOT NULL  ,
+	roles_id             integer  NOT NULL  ,
+	CONSTRAINT fk70s9enq5d1oywl7v8vis5ke5w FOREIGN KEY ( roles_id ) REFERENCES "public"."role"( id )   ,
+	CONSTRAINT fktp61eta5i06bug3w1qr6286uf FOREIGN KEY ( account_id ) REFERENCES "public".account( id )   
+ );
+
+CREATE  TABLE "public".product ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	image                varchar(255)    ,
+	in_stock             double precision    ,
+	name                 varchar(255)    ,
+	price                double precision    ,
+	unit                 varchar(255)    ,
+	category_id          integer    ,
+	province_id          integer    ,
+	CONSTRAINT product_pkey PRIMARY KEY ( id ),
+	CONSTRAINT fk1mtsbur82frn64de7balymq9s FOREIGN KEY ( category_id ) REFERENCES "public".category( id )   ,
+	CONSTRAINT fkis3bcatg70lhkpokh17xqg2jl FOREIGN KEY ( province_id ) REFERENCES "public".province( id )   
+ );
+
+CREATE  TABLE "public".purchase_detail ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	amount               real    ,
+	price                real    ,
+	product_id           integer    ,
+	purchase_id          integer    ,
+	CONSTRAINT purchase_detail_pkey PRIMARY KEY ( id ),
+	CONSTRAINT fk79a6tsn4e9qfillme2u9kr3i2 FOREIGN KEY ( product_id ) REFERENCES "public".product( id )   ,
+	CONSTRAINT fk65hoe4yy1817l2vm74msb8eq5 FOREIGN KEY ( purchase_id ) REFERENCES "public".purchase( id )   
+ );
+
+CREATE  TABLE "public".purchase_details ( 
+	purchase_id          integer  NOT NULL  ,
+	details_id           integer  NOT NULL  ,
+	CONSTRAINT fkokyu61bio7a71f99cf08l7rx5 FOREIGN KEY ( details_id ) REFERENCES "public".purchase_detail( id )   ,
+	CONSTRAINT fkk16rlf7byn3rg2iq2eym1sbv2 FOREIGN KEY ( purchase_id ) REFERENCES "public".purchase( id )   
+ );
+
+CREATE  TABLE "public".restock ( 
+	id                   integer  NOT NULL GENERATED  BY DEFAULT AS IDENTITY ,
+	amount               real    ,
+	administrator_id     integer    ,
+	product_id           integer    ,
+	restock_date         timestamp    ,
+	CONSTRAINT restock_pkey PRIMARY KEY ( id ),
+	CONSTRAINT fkjb8mh4ona6lgy468mqlr4li02 FOREIGN KEY ( administrator_id ) REFERENCES "public".account( id )   ,
+	CONSTRAINT fks289fuhq0fepnf7nvddyh2gbw FOREIGN KEY ( product_id ) REFERENCES "public".product( id )   
+ );
+
 CREATE OR REPLACE VIEW most_purchased AS SELECT "public".most_purchased,
     pr.name,
     pu.amount
