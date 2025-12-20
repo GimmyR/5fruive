@@ -4,8 +4,10 @@
 
 ## Prerequisites
 
-* **Docker** version **29.0.2** (build **8108357**) or later
-* **Docker compose** version **2.40.3** or later
+**Docker** (version **29.0.2** build **8108357** or later) and **Docker Compose** (version **2.40.3** or later) 
+are required to launch the application. 
+
+You can do that by installing [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
 ## Build and launch the application
 
