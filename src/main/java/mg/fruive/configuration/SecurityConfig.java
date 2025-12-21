@@ -19,11 +19,8 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // Disbale frame options for H2 Console
-		httpSecurity.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
-		
-		// Disable CSRF for API and H2 Console
-		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/h2-console/**"));
+        // Disable CSRF for API
+		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
 
         // Use custom login page to sign in
 		httpSecurity.formLogin(login -> login.loginPage("/sign-in").permitAll());
