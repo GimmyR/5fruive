@@ -18,10 +18,7 @@ public class RestockService {
 	
 	private RestockRepository restockRepository;
 	
-	public void saveRestock(Account administrator, Product product, Float amount) throws NegativeException {
-		
-		if(amount <= 0)
-			throw new NegativeException("Amount value must be a positive value");
+	public Restock saveRestock(Account administrator, Product product, Float amount) throws NegativeException {
 		
 		Restock restock = new Restock();
 		restock.setRestockDate(LocalDateTime.now());
@@ -29,7 +26,7 @@ public class RestockService {
 		restock.setProduct(product);
 		restock.setAmount(amount);
 		
-		restockRepository.save(restock);
+		return restockRepository.save(restock);
 		
 	}
 	
