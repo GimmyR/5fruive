@@ -3,8 +3,6 @@ package mg.fruive.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.service.AccountService;
 
@@ -22,11 +20,11 @@ public class AccountController {
 	}
 	
 	@GetMapping("/bo/accounts")
-	public ModelAndView getAccounts(Model model) {
+	public String getAccounts(Model model) {
 		
 		model.addAttribute("active", "accounts");
 		model.addAttribute("accounts", accountService.findAll());
-		return new ModelAndView("accounts/index");
+		return "accounts/index";
 		
 	}
 
