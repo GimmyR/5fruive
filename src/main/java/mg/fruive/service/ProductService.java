@@ -58,9 +58,9 @@ public class ProductService {
 		
 	}
 	
-	public void update(Product product) {
+	public Product update(Product product) {
 		
-		productRepository.save(product);
+		return productRepository.save(product);
 		
 	}
 
