@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
 import mg.fruive.exception.IsMissingException;
@@ -21,7 +19,7 @@ public class PurchaseDetailController {
 	private ErrorService errorService;
 	
 	@GetMapping("/bo/purchases/{purchaseId}")
-	public ModelAndView getPurchaseDetails(Model model, @PathVariable Integer purchaseId) {
+	public String getPurchaseDetails(Model model, @PathVariable Integer purchaseId) {
 		
 		try {
 			
@@ -32,7 +30,7 @@ public class PurchaseDetailController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
-		} return new ModelAndView("purchase-details/index");
+		} return "purchase-details/index";
 		
 	}
 

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
@@ -30,7 +28,7 @@ public class RestockController {
 	private ErrorService errorService;
 	
 	@GetMapping("/bo/restock/{productId}")
-	public ModelAndView restockByProductId(Model model, @PathVariable Integer productId) {
+	public String restockByProductId(Model model, @PathVariable Integer productId) {
 		
 		try {
 			
@@ -40,12 +38,12 @@ public class RestockController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
-		} return new ModelAndView("restock/save/index");
+		} return "restock/save/index";
 		
 	}
 	
 	@PostMapping("/bo/restock/{productId}")
-	public ModelAndView restockingByProductId(Model model, Principal auth, @PathVariable Integer productId, @RequestParam Float amount) {
+	public String restockingByProductId(Model model, Principal auth, @PathVariable Integer productId, @RequestParam Float amount) {
 		
 		try {
 			
@@ -63,15 +61,15 @@ public class RestockController {
 			
 			errorService.defineError(model, 402, e.getMessage());
 			
-		} return new ModelAndView("restock/save/index");
+		} return "restock/save/index";
 		
 	}
 	
 	@GetMapping("/bo/restocks")
-	public ModelAndView getRestocks(Model model) {
+	public String getRestocks(Model model) {
 		
 		restockService.findAll(model);
-		return new ModelAndView("restock/index");
+		return "restock/index";
 		
 	}
 

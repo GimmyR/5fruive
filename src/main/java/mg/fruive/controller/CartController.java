@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.CartService;
@@ -21,7 +19,7 @@ public class CartController {
 	private ErrorService errorService;
 	
 	@GetMapping("/cart")
-	public ModelAndView getCart(Principal auth, Model model, @RequestParam(required = false) String error) {
+	public String getCart(Principal auth, Model model, @RequestParam(required = false) String error) {
 		
 		model.addAttribute("auth", auth);
 		model.addAttribute("errorMessage", error);
@@ -34,15 +32,15 @@ public class CartController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
-		} return new ModelAndView("cart/index");
+		} return "cart/index";
 		
 	}
 	
 	@GetMapping("/cart/reset")
-	public ModelAndView resetCart() {
+	public String resetCart() {
 		
 		cartService.resetCart();
-		return new ModelAndView("redirect:/cart");
+		return "redirect:/cart";
 		
 	}
 

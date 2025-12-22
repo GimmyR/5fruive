@@ -7,8 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.ErrorService;
@@ -23,16 +21,16 @@ public class ProductController {
 	private ErrorService errorService;
 	
 	@GetMapping("/")
-	public ModelAndView getHome(Principal auth, Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
+	public String getHome(Principal auth, Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
 		
 		productService.findAll(model, search, page);
 		model.addAttribute("auth", auth);
-		return new ModelAndView("home/index");
+		return "home/index";
 		
 	}
 	
 	@GetMapping("/product/{productId}")
-	public ModelAndView getUniqueProduct(Principal auth, Model model, @PathVariable Integer productId) {
+	public String getUniqueProduct(Principal auth, Model model, @PathVariable Integer productId) {
 		
 		model.addAttribute("auth", auth);
 		
@@ -44,17 +42,17 @@ public class ProductController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
-		} return new ModelAndView("product/index");
+		} return "product/index";
 		
 	}
 	
 	@GetMapping("/bo/products")
-	public ModelAndView getProducts(Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
+	public String getProducts(Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
 		
 		model.addAttribute("active", "products");
 		model.addAttribute("url", "/bo/products");
 		productService.findAll(model, search, page);
-		return new ModelAndView("products/index");
+		return "products/index";
 		
 	}
 
