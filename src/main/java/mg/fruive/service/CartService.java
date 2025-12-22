@@ -1,12 +1,12 @@
 package mg.fruive.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Cart;
@@ -101,8 +101,9 @@ public class CartService {
 		
 	}
 	
-	public void prepareCartView(Model model) throws NotFoundException {
+	public Map<String, Object> prepareCartView() throws NotFoundException {
 		
+		Map<String, Object> result = new HashMap<>();
 		Cart cart = this.getCart();
 		
 		if(cart != null) {
@@ -120,11 +121,11 @@ public class CartService {
 				
 			}
 			
-			model.addAttribute("products", products);
-			model.addAttribute("amounts", amounts);
-			model.addAttribute("totalPrice", totalPrice);
+			result.put("products", products);
+			result.put("amounts", amounts);
+			result.put("totalPrice", totalPrice);
 			
-		}
+		} return result;
 		
 	}
 	

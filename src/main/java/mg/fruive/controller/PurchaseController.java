@@ -61,7 +61,7 @@ public class PurchaseController {
 			
 			Purchase purchase = purchaseService.findPurchase(purchaseId);
 			model.addAttribute("purchase", purchase);
-			purchaseService.provideAccountFullname(model, auth);
+			model.addAttribute("fullname", purchaseService.provideAccountFullname(auth));
 			
 		} catch (NotFoundException | IsMissingException e) {
 			
@@ -76,7 +76,7 @@ public class PurchaseController {
 		
 		model.addAttribute("auth", auth);
 		model.addAttribute("active", "dashboard");
-		purchaseService.findMostPurchased(model);
+		model.addAllAttributes(purchaseService.findMostPurchased());
 		return "dashboard/index";
 		
 	}
@@ -85,7 +85,7 @@ public class PurchaseController {
 	public String getPurchases(Model model) {
 		
 		model.addAttribute("active", "purchases");
-		purchaseService.findAll(model);
+		model.addAttribute("purchases", purchaseService.findAll());
 		return "purchases/index";
 		
 	}

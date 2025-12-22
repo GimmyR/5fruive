@@ -26,7 +26,7 @@ public class CartController {
 		
 		try {
 			
-			cartService.prepareCartView(model);
+			model.addAllAttributes(cartService.prepareCartView());
 			
 		} catch (NotFoundException e) {
 			

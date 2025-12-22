@@ -16,7 +16,7 @@ public class ProvinceController {
 	public String getProvinces(Model model) {
 		
 		model.addAttribute("active", "provinces");
-		provinceService.findAll(model);
+		model.addAttribute("provinces", provinceService.findAll());
 		return "provinces/index";
 		
 	}

@@ -2,15 +2,14 @@ package mg.fruive.service;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Product;
 import mg.fruive.exception.NotFoundException;
@@ -24,8 +23,9 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	
-	public List<Product> findAll(Model model, String search, Integer page) {
+	public Map<String, Object> findAll(String search, Integer page) {
 		
+		Map<String, Object> result = new HashMap<>();
 		Page<Product> products = null;
 		
 		if(page == null)
@@ -35,29 +35,24 @@ public class ProductService {
 			products = productRepository.findByNameLikeIgnoreCase("%" + search + "%", PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
 		
 		else products = productRepository.findAll(PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
+			
+		result.put("products", products.toList());
+		result.put("numberOfPages", products.getTotalPages());
+		result.put("selectedPage", page);
 		
-		if(model != null) {
+		if(search != null)
+			result.put("search", URLEncoder.encode(search, StandardCharsets.UTF_8));
 			
-			model.addAttribute("products", products.toList());
-			model.addAttribute("numberOfPages", products.getTotalPages());
-			model.addAttribute("selectedPage", page);
-			
-			if(search != null)
-				model.addAttribute("search", URLEncoder.encode(search, StandardCharsets.UTF_8));
-			
-		} return products.toList();
+		return result;
 		
 	}
 	
-	public Product findUnique(Model model, Integer id) throws NotFoundException {
+	public Product findUnique(Integer id) throws NotFoundException {
 		
 		Optional<Product> opt = productRepository.findById(id);
 		
 		if(opt.isEmpty())
 			throw new NotFoundException("Product not found");
-		
-		if(model != null)
-			model.addAttribute("product", opt.get());
 		
 		return opt.get();
 		

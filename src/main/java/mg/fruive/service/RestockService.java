@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
@@ -35,14 +33,9 @@ public class RestockService {
 		
 	}
 	
-	public List<Restock> findAll(Model model) {
+	public List<Restock> findAll() {
 		
-		List<Restock> restocks = restockRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-		
-		if(model != null)
-			model.addAttribute("restocks", restocks);
-		
-		return restocks;
+		return restockRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 		
 	}
 

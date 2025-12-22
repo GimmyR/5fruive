@@ -3,7 +3,9 @@ package mg.fruive.service;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
@@ -12,8 +14,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.ui.Model;
-
 import jakarta.servlet.http.HttpSession;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Cart;
@@ -195,46 +195,39 @@ public class PurchaseService {
 		
 	}
 	
-	public void provideAccountFullname(Model model, Principal auth) throws NotFoundException {
+	public String provideAccountFullname(Principal auth) throws NotFoundException {
 		
 		Optional<Account> account = accountRepository.findByUsername(auth.getName());
 		
 		if(account.isPresent())
-			model.addAttribute("fullname", account.get().getFirstname() + " " + account.get().getLastname());
+			return account.get().getFirstname() + " " + account.get().getLastname();
 		
 		else throw new NotFoundException("Account not found");
 		
 	}
 	
-	public List<Purchase> findAll(Model model) {
+	public List<Purchase> findAll() {
 		
-		List<Purchase> purchases = purchaseRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-		
-		if(model != null)
-			model.addAttribute("purchases", purchases);
-		
-		return purchases;
+		return purchaseRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
 		
 	}
 	
-	public List<MostPurchased> findMostPurchased(Model model) {
+	public Map<String, Object> findMostPurchased() {
 		
+		Map<String, Object> map = new HashMap<>();
 		List<MostPurchased> result = mostPurchasedRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		List<String> labels = new ArrayList<String>();
+		List<Float> values = new ArrayList<Float>();
 		
-		if(model != null) {
+		result.forEach(purchase -> {
+			labels.add(purchase.getName());
+			values.add(purchase.getAmount());
+		});
+		
+		map.put("labels", labels);
+		map.put("values", values);
 			
-			List<String> labels = new ArrayList<String>();
-			List<Float> values = new ArrayList<Float>();
-			
-			result.forEach(purchase -> {
-				labels.add(purchase.getName());
-				values.add(purchase.getAmount());
-			});
-			
-			model.addAttribute("labels", labels);
-			model.addAttribute("values", values);
-			
-		} return result;
+		return map;
 		
 	}
 

@@ -32,7 +32,7 @@ public class RestockController {
 		
 		try {
 			
-			productService.findUnique(model, productId);
+			model.addAttribute("product", productService.findUnique(productId));
 			
 		} catch (NotFoundException e) {
 			
@@ -47,11 +47,12 @@ public class RestockController {
 		
 		try {
 			
-			Product product = productService.findUnique(model, productId);
+			Product product = productService.findUnique(productId);
 			Account account = accountService.findUniqueByUsername(auth.getName());
 			restockService.saveRestock(account, product, amount);
 			product.setInStock(product.getInStock() + amount);
 			productService.update(product);
+			model.addAttribute("product", product);
 			
 		} catch (NotFoundException e) {
 			
@@ -68,7 +69,7 @@ public class RestockController {
 	@GetMapping("/bo/restocks")
 	public String getRestocks(Model model) {
 		
-		restockService.findAll(model);
+		model.addAttribute("restocks", restockService.findAll());
 		return "restock/index";
 		
 	}
