@@ -25,7 +25,7 @@ public class AccountController {
 	public ModelAndView getAccounts(Model model) {
 		
 		model.addAttribute("active", "accounts");
-		accountService.findAll(model);
+		model.addAttribute("accounts", accountService.findAll());
 		return new ModelAndView("accounts/index");
 		
 	}
