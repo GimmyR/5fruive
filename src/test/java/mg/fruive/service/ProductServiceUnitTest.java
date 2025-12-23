@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import mg.fruive.entity.Category;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Province;
+import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.repository.ProductRepository;
 
@@ -74,7 +75,7 @@ public class ProductServiceUnitTest {
 	}
 	
 	@Test
-	public void testFindUnique() throws NotFoundException {
+	public void testFindUnique() throws NotFoundException, IsMissingException {
 		
 		Category category = new Category(1, "Fruit");
 		Province province = new Province(1, "Antananarivo");
@@ -89,10 +90,17 @@ public class ProductServiceUnitTest {
 	}
 	
 	@Test
-	public void testFindUniqueThrowingException() {
+	public void testFindUniqueThrowingNotFoundException() {
 		
 		when(productRepository.findById(1)).thenReturn(Optional.empty());
 		assertThrows(NotFoundException.class, () -> productService.findUnique(1));
+		
+	}
+	
+	@Test
+	public void testFindUniqueThrowingIsMissingException() {
+		
+		assertThrows(IsMissingException.class, () -> productService.findUnique(null));
 		
 	}
 	
