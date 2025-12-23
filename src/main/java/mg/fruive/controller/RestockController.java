@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
 import mg.fruive.exception.InvalidValueException;
+import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.AccountService;
 import mg.fruive.service.ErrorService;
@@ -38,6 +39,10 @@ public class RestockController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
+		} catch (IsMissingException e) {
+
+			errorService.defineError(model, 400, e.getMessage());
+			
 		} return "restock/save/index";
 		
 	}
@@ -61,6 +66,10 @@ public class RestockController {
 		} catch (InvalidValueException e) {
 			
 			errorService.defineError(model, 402, e.getMessage());
+			
+		} catch (IsMissingException e) {
+
+			errorService.defineError(model, 400, e.getMessage());
 			
 		} return "restock/save/index";
 		
