@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
-import mg.fruive.exception.NegativeException;
+import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.AccountService;
 import mg.fruive.service.ErrorService;
@@ -50,7 +50,7 @@ public class RestockController {
 			Product product = productService.findUnique(productId);
 			Account account = accountService.findUniqueByUsername(auth.getName());
 			restockService.saveRestock(account, product, amount);
-			product.setInStock(product.getInStock() + amount);
+			product.addToInStock(amount);
 			productService.update(product);
 			model.addAttribute("product", product);
 			
@@ -58,7 +58,7 @@ public class RestockController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
-		} catch (NegativeException e) {
+		} catch (InvalidValueException e) {
 			
 			errorService.defineError(model, 402, e.getMessage());
 			

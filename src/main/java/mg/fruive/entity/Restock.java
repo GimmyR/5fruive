@@ -11,12 +11,10 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import mg.fruive.exception.NegativeException;
+import mg.fruive.exception.InvalidValueException;
 
 @Entity
 @Getter
-@Setter 
 @NoArgsConstructor 
 @AllArgsConstructor
 public class Restock {
@@ -37,11 +35,14 @@ public class Restock {
 	
 	private Float amount;
 	
-	public void setAmount(Float amount) throws NegativeException {
+	public Restock(LocalDateTime restockDate, Account administrator, Product product, Float amount) throws InvalidValueException {
 		
 		if(amount <= 0)
-			throw new NegativeException("Amount value must be a positive value");
+			throw new InvalidValueException("amount", "Amount to set is invalid (negative or equals to 0)");
 		
+		this.restockDate = restockDate;
+		this.administrator = administrator;
+		this.product = product;
 		this.amount = amount;
 		
 	}

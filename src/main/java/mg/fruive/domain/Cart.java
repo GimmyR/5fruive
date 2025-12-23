@@ -1,13 +1,13 @@
-package mg.fruive.entity;
+package mg.fruive.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor
+@Getter
+@AllArgsConstructor
 public class Cart {
 	
 	// ATTRIBUTES

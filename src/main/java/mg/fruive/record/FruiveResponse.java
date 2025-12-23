@@ -1,4 +1,4 @@
-package mg.fruive.entity;
+package mg.fruive.record;
 
 import lombok.AllArgsConstructor;
 

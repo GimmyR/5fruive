@@ -16,10 +16,11 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Purchase {
 
 	@Id
@@ -34,5 +35,13 @@ public class Purchase {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable
 	private List<PurchaseDetail> details;
+	
+	// METHODS :
+	
+	public void replaceDetails(List<PurchaseDetail> details) {
+		
+		this.details = details;
+		
+	}
 	
 }

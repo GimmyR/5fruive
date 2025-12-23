@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
-import mg.fruive.entity.CartEntry;
-import mg.fruive.entity.FruiveResponse;
+import mg.fruive.domain.CartEntry;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
+import mg.fruive.record.FruiveResponse;
 import mg.fruive.service.CartService;
 
 @RestController

@@ -15,13 +15,14 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import jakarta.servlet.http.HttpSession;
+import mg.fruive.domain.Cart;
+import mg.fruive.domain.CartEntry;
 import mg.fruive.entity.Account;
-import mg.fruive.entity.Cart;
-import mg.fruive.entity.CartEntry;
 import mg.fruive.entity.MostPurchased;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Purchase;
 import mg.fruive.entity.PurchaseDetail;
+import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
@@ -82,14 +83,12 @@ public class PurchaseService {
 		
 	}
 	
-	private Purchase doPurchase(Principal auth, String cardCode) throws NotFoundException, OutOfStockException {
+	private Purchase doPurchase(Principal auth, String cardCode) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
 		validateCardCode(cardCode);
 		Account account = this.validateAccount(auth);
 		Cart cart = this.getCart();
-		Purchase purchase = new Purchase();
-		purchase.setPurchaseDate(LocalDateTime.now());
-		purchase.setPurchaser(account);
+		Purchase purchase = new Purchase(null, LocalDateTime.now(), account, null);
 		purchase = purchaseRepository.save(purchase);
 		this.saveDetails(purchase, cart);
 		
@@ -123,7 +122,7 @@ public class PurchaseService {
 		
 	}
 	
-	private void saveDetails(Purchase purchase, Cart cart) throws NotFoundException, OutOfStockException {
+	private void saveDetails(Purchase purchase, Cart cart) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
 		List<PurchaseDetail> details = new ArrayList<PurchaseDetail>();
 		List<CartEntry> entries = cart.getEntries();
@@ -138,7 +137,7 @@ public class PurchaseService {
 			
 		}
 		
-		purchase.setDetails(details);
+		purchase.replaceDetails(details);
 		purchaseRepository.save(purchase);
 		httpSession.removeAttribute("cart");
 		
@@ -155,28 +154,16 @@ public class PurchaseService {
 		
 	}
 	
-	private void validateAmount(Product product, Float amount) throws OutOfStockException {
+	private PurchaseDetail saveDetail(Product product, Purchase purchase, CartEntry entry) throws InvalidValueException, OutOfStockException {
 		
-		if(product.getInStock() < amount)
-			throw new OutOfStockException(product.getName() + " in stock (" + product.getInStock() + " " + product.getUnit() + ") is lower than what you want to buy (" + amount + " " + product.getUnit() +")");
-		
-	}
-	
-	private PurchaseDetail saveDetail(Product product, Purchase purchase, CartEntry entry) throws OutOfStockException {
-		
-		PurchaseDetail detail = new PurchaseDetail();
-		detail.setPurchase(purchase);
-		detail.setProduct(product);
-		this.validateAmount(product, entry.getAmount());
-		detail.setAmount(entry.getAmount());
-		detail.setPrice((float) (detail.getAmount() * product.getPrice()));
+		PurchaseDetail detail = new PurchaseDetail(purchase, product, entry.getAmount());
 		return purchaseDetailRepository.save(detail);
 		
 	}
 	
-	private void saveProduct(Product product, CartEntry entry) {
+	private void saveProduct(Product product, CartEntry entry) throws InvalidValueException {
 		
-		product.setInStock(product.getInStock() - entry.getAmount());
+		product.subtractToInStock(entry.getAmount());
 		productRepository.save(product);
 		
 	}

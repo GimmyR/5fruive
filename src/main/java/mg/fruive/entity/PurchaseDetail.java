@@ -9,10 +9,13 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import mg.fruive.exception.InvalidValueException;
+import mg.fruive.exception.OutOfStockException;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseDetail {
 	
 	@Id
@@ -29,5 +32,28 @@ public class PurchaseDetail {
 	
 	private Float amount;
 	private Float price;
+	
+	public PurchaseDetail(Purchase purchase, Product product, Float amount) throws InvalidValueException, OutOfStockException {
+		
+		if(amount <= 0)
+			throw new InvalidValueException("amount", String.format("Amount of %s is invalid (negative or equals to 0)", product.getName()));
+		
+		if(product.getInStock() < amount)
+			throw new OutOfStockException(product.getName() + " in stock (" + product.getInStock() + " " + product.getUnit() + ") is lower than what you want to buy (" + amount + " " + product.getUnit() +")");
+		
+		this.purchase = purchase;
+		this.product = product;
+		this.amount = amount;
+		this.calculatePrice();
+		
+	}
+	
+	// METHODS :
+	
+	private void calculatePrice() {
+		
+		this.price = (float) (this.amount * this.product.getPrice());
+		
+	}
 
 }
