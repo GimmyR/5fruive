@@ -49,6 +49,9 @@ public class ProductService {
 	
 	public Product findUnique(Integer id) throws NotFoundException {
 		
+		if(id == null)
+			throw new NotFoundException("Product ID is undefined");
+		
 		Optional<Product> opt = productRepository.findById(id);
 		
 		if(opt.isEmpty())
