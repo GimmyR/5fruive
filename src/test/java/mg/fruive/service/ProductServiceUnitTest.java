@@ -42,7 +42,7 @@ public class ProductServiceUnitTest {
 		String search = "Banana";
 		Category category = new Category(1, "Fruit");
 		Province province = new Province(1, "Antananarivo");
-		List<Product> products = Arrays.asList(new Product(1, category, province, search, 1000.0, 2000.0, "kg", "banana.jpg"));
+		List<Product> products = Arrays.asList(new Product(1, category, province, search, (float) 1000.0, 2000.0, "kg", "banana.jpg"));
 		Page<Product> page = new PageImpl<Product>(products);
 		
 		when(productRepository.findByNameLikeIgnoreCase("%" + search + "%", PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
@@ -61,7 +61,7 @@ public class ProductServiceUnitTest {
 		String search = "Banana";
 		Category category = new Category(1, "Fruit");
 		Province province = new Province(1, "Antananarivo");
-		List<Product> products = Arrays.asList(new Product(1, category, province, search, 1000.0, 2000.0, "kg", "banana.jpg"));
+		List<Product> products = Arrays.asList(new Product(1, category, province, search, (float) 1000.0, 2000.0, "kg", "banana.jpg"));
 		Page<Product> page = new PageImpl<Product>(products);
 		
 		when(productRepository.findAll(PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
@@ -78,7 +78,7 @@ public class ProductServiceUnitTest {
 		
 		Category category = new Category(1, "Fruit");
 		Province province = new Province(1, "Antananarivo");
-		Product product = new Product(1, category, province, "Banana", 1000.0, 2000.0, "kg", "banana.jpg");
+		Product product = new Product(1, category, province, "Banana", (float) 1000.0, 2000.0, "kg", "banana.jpg");
 		
 		when(productRepository.findById(1)).thenReturn(Optional.of(product));
 		
@@ -101,7 +101,7 @@ public class ProductServiceUnitTest {
 		
 		Category category = new Category(1, "Fruit");
 		Province province = new Province(1, "Antananarivo");
-		Product product = new Product(1, category, province, "Banana", 1000.0, 2000.0, "kg", "banana.jpg");
+		Product product = new Product(1, category, province, "Banana", (float) 1000.0, 2000.0, "kg", "banana.jpg");
 		
 		when(productRepository.save(product)).thenReturn(product);
 		
