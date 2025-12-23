@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import mg.fruive.domain.CartEntry;
+import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.record.FruiveResponse;
@@ -41,7 +42,7 @@ public class CartRestController {
 			
 			response = new FruiveResponse("Product saved in cart !", cartService.addToCart(productId, amount));
 			
-		} catch (NullPointerException | OutOfStockException e) {
+		} catch (NullPointerException | OutOfStockException | InvalidValueException e) {
 			
 			status = 400;
 			response = new FruiveResponse(e.getMessage(), null);
@@ -86,7 +87,7 @@ public class CartRestController {
 			cartService.saveCart(entries);
 			response = new FruiveResponse("Cart is successfully saved !", null);
 			
-		} catch (NullPointerException | OutOfStockException e) {
+		} catch (NullPointerException | OutOfStockException | InvalidValueException e) {
 			
 			status = 400;
 			response = new FruiveResponse(e.getMessage(), null);

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import mg.fruive.domain.Cart;
 import mg.fruive.domain.CartEntry;
 import mg.fruive.entity.Product;
+import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.repository.ProductRepository;
@@ -45,7 +46,7 @@ public class CartService {
 		
 	}
 	
-	public Integer addToCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException {
+	public Integer addToCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
 		this.validateInput(productId, amount);
 		Cart cart = this.getCart();
@@ -67,17 +68,10 @@ public class CartService {
 		
 	}
 	
-	private Integer addOrPut(Cart cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
+	private Integer addOrPut(Cart cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
 		Product product = this.findProduct(productId);
-		Float number = cart.getAmountByProductId(productId);
-		
-		if(number == null)
-			number = (float) 0;
-		
-		Float total = number + amount;
-		this.validateInStock(product, total);
-		cart.put(productId, total);
+		cart.add(productId, amount, product.getInStock());
 		httpSession.setAttribute("cart", cart);
 		return cart.size();
 		
@@ -91,13 +85,6 @@ public class CartService {
 			throw new NotFoundException("Product not found");
 		
 		else return opt.get();
-		
-	}
-	
-	private void validateInStock(Product product, Float total) throws OutOfStockException {
-		
-		if(total > product.getInStock())
-			throw new OutOfStockException("Out of stock : " + total + " > " + product.getInStock());
 		
 	}
 	
@@ -153,28 +140,7 @@ public class CartService {
 		
 	}
 	
-	public void saveCart(List<CartEntry> entries) throws NotFoundException, OutOfStockException {
-		
-		this.validateCart(entries);
-		this.saveCartEntries(entries);
-		
-	}
-	
-	private void validateCart(List<CartEntry> entries) throws NotFoundException, OutOfStockException {
-		
-		for(int i = 0; i < entries.size(); i++) {
-			
-			Integer productId = entries.get(i).getProductId();
-			Float amount = entries.get(i).getAmount();
-			this.validateInput(productId, amount);
-			Product product = this.findProduct(productId);
-			this.validateInStock(product, amount);
-			
-		}
-		
-	}
-	
-	private void saveCartEntries(List<CartEntry> entries) {
+	public void saveCart(List<CartEntry> entries) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
 		Cart cart = this.getCart();
 		
@@ -185,7 +151,9 @@ public class CartService {
 			
 			Integer productId = entries.get(i).getProductId();
 			Float amount = entries.get(i).getAmount();
-			cart.put(productId, amount);
+			this.validateInput(productId, amount);
+			Product product = this.findProduct(productId);
+			cart.add(productId, amount, product.getInStock());
 			
 		} httpSession.setAttribute("cart", cart);
 		
