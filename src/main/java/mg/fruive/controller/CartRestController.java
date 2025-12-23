@@ -2,6 +2,7 @@ package mg.fruive.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,76 +24,79 @@ public class CartRestController {
 	private CartService cartService;
 	
 	@GetMapping("/api/cart-size")
-	public FruiveResponse getCartSize() {
+	public ResponseEntity<FruiveResponse> getCartSize() {
 		
-		return new FruiveResponse(200, null, cartService.getCartSize());
+		FruiveResponse response = new FruiveResponse(null, cartService.getCartSize());
+		return ResponseEntity.ok(response);
 		
 	}
 	
 	@PostMapping("/api/cart/add")
-	public FruiveResponse addToCart(@RequestParam(required = false) Integer productId, @RequestParam(required = false) Float amount) {
+	public ResponseEntity<FruiveResponse> addToCart(@RequestParam(required = false) Integer productId, @RequestParam(required = false) Float amount) {
 		
-		FruiveResponse response = new FruiveResponse(201, "Product saved in cart !", null);
+		int status = 201;
+		FruiveResponse response = null;
 		
 		try {
 			
-			response.data = cartService.addToCart(productId, amount);
+			response = new FruiveResponse("Product saved in cart !", cartService.addToCart(productId, amount));
 			
-		} catch (NullPointerException e) {
+		} catch (NullPointerException | OutOfStockException e) {
 			
-			response = new FruiveResponse(400, e.getMessage(), null);
+			status = 400;
+			response = new FruiveResponse(e.getMessage(), null);
 			
 		} catch (NotFoundException e) {
 			
-			response = new FruiveResponse(404, e.getMessage(), null);
+			status = 404;
+			response = new FruiveResponse(e.getMessage(), null);
 			
-		} catch (OutOfStockException e) {
-			
-			response = new FruiveResponse(400, e.getMessage(), null);
-			
-		} return response;
+		} return ResponseEntity.status(status).body(response);
 		
 	}
 	
 	@PostMapping("/api/cart/remove/{productId}")
-	public FruiveResponse removeProduct(@PathVariable Integer productId) {
+	public ResponseEntity<FruiveResponse> removeProduct(@PathVariable Integer productId) {
 		
-		FruiveResponse response = new FruiveResponse(201, "Product is successfully removed from cart !", null);
+		int status = 201;
+		FruiveResponse response = null;
 		
 		try {
 			
 			cartService.removeProduct(productId);
+			response = new FruiveResponse("Product is successfully removed from cart !", null);
 			
 		} catch (NotFoundException e) {
 			
-			response = new FruiveResponse(404, e.getMessage(), null);
+			status = 404;
+			response = new FruiveResponse(e.getMessage(), null);
 			
-		} return response;
+		} return ResponseEntity.status(status).body(response);
 		
 	}
 	
 	@PostMapping("/api/cart/save")
-	public FruiveResponse saveCart(@RequestBody List<CartEntry> entries) {
+	public ResponseEntity<FruiveResponse> saveCart(@RequestBody List<CartEntry> entries) {
 		
-		FruiveResponse response = new FruiveResponse(201, "Cart is successfully saved !", null);
+		int status = 201;
+		FruiveResponse response = null;
 		
 		try {
 			
 			cartService.saveCart(entries);
+			response = new FruiveResponse("Cart is successfully saved !", null);
 			
-		} catch (NullPointerException e) {
+		} catch (NullPointerException | OutOfStockException e) {
 			
-			response = new FruiveResponse(400, e.getMessage(), null);
+			status = 400;
+			response = new FruiveResponse(e.getMessage(), null);
 			
 		} catch (NotFoundException e) {
 			
-			response = new FruiveResponse(404, e.getMessage(), null);
+			status = 404;
+			response = new FruiveResponse(e.getMessage(), null);
 			
-		} catch (OutOfStockException e) {
-			
-			response = new FruiveResponse(400, e.getMessage(), null);
-			
-		} return response;
+		} return ResponseEntity.status(status).body(response);
 		
 	}
 

@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import mg.fruive.exception.NegativeException;
+import mg.fruive.exception.InvalidValueException;
 import mg.fruive.repository.RestockRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,7 +23,7 @@ public class RestockServiceUnitTest {
 	public void testSaveRestockThrowingException() {
 		
 		assertThrows(
-				NegativeException.class, 
+				InvalidValueException.class, 
 				() -> restockService.saveRestock(null, null, (float)-10)
 		);
 		

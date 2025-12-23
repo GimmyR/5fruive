@@ -51,12 +51,12 @@ const saveCart = async () => {
 	});
 	
 	setTimeout(async () => {
-		const res = await saveAllEntries(entries);
+		const response = await saveAllEntries(entries);
 		
-		if(res.status == 201)
+		if(response.status == 201)
 			document.location.reload();
 		
-		else throw new Error(res.message);
+		else throw new Error((await response.json()).message);
 	}, 1000);
 };
 
@@ -69,7 +69,7 @@ const saveAllEntries = async (entries) => {
 		body: JSON.stringify(entries)
 	});
 	
-	return await response.json();
+	return response;
 };
 
 const goToPaymentMethod = async () => {
@@ -81,12 +81,12 @@ const goToPaymentMethod = async () => {
 	});
 	
 	setTimeout(async () => {
-		const res = await saveAllEntries(entries);
+		const response = await saveAllEntries(entries);
 		
-		if(res.status == 201)
+		if(response.status == 201)
 			document.location.replace("/payment");
 		
-		else throw new Error(res.message);
+		else throw new Error((await response.json()).message);
 	}, 1000);
 };
 
