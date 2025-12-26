@@ -20,6 +20,7 @@ import mg.fruive.entity.MostPurchased;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Purchase;
 import mg.fruive.entity.PurchaseDetail;
+import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.repository.AccountRepository;
@@ -40,14 +41,17 @@ public class PurchaseService {
 	private MostPurchasedRepository mostPurchasedRepository;
 
 	@Transactional(rollbackFor = {NotFoundException.class, OutOfStockException.class})
-	public Purchase buyProducts(Principal auth, String cardCode) throws NotFoundException, OutOfStockException {
+	public Purchase buyProducts(Principal auth, String cardCode) throws NotFoundException, OutOfStockException, IsMissingException {
+		
+		if(cardCode == null || cardCode.isBlank())
+			throw new IsMissingException("Card code is missing");
 		
 		Purchase purchase = null;
 		
 		Account account = this.validateAccount(auth);
-		Cart cart = this.getCart();
 		purchase = new Purchase(null, LocalDateTime.now(), account, null);
 		purchase = purchaseRepository.save(purchase);
+		Cart cart = this.getCart();
 		this.saveDetails(purchase, cart);
 		
 		return purchase;

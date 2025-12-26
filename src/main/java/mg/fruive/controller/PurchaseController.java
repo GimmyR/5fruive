@@ -4,14 +4,12 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
 import mg.fruive.exception.NotFoundException;
@@ -20,6 +18,7 @@ import mg.fruive.service.PurchaseService;
 
 @Controller
 @AllArgsConstructor
+@Validated
 public class PurchaseController {
 	
 	private PurchaseService purchaseService;
@@ -34,18 +33,13 @@ public class PurchaseController {
 	}
 	
 	@PostMapping("/payment")
-	@Validated
-	public String buyProducts(Principal auth, Model model, @RequestParam(name = "card-code", required = false)
-															@NotBlank(message = "Card code is missing")
-															String cardCode,
-															BindingResult bindingResult) {
+	public String buyProducts(Principal auth, Model model, @RequestParam(name = "card-code", required = false) String cardCode) {
 		
 		model.addAttribute("auth", auth);
 		String view = "payment/index";
 		
 		try {
 			
-			errorService.throwExceptionIfErrorsExist(bindingResult);
 			Purchase purchase = purchaseService.buyProducts(auth, cardCode);
 			view = "redirect:/bill/" + purchase.getId();
 			
