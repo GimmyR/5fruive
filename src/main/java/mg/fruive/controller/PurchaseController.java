@@ -1,7 +1,5 @@
 package mg.fruive.controller;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
@@ -45,8 +43,8 @@ public class PurchaseController {
 			
 		} else {
 			
-			String params = "?error=" + URLEncoder.encode((String) result, StandardCharsets.UTF_8);
-			return "redirect:/cart" + params;
+			errorService.defineError(model, 400, result.toString());
+			return "payment/index";
 			
 		}
 		
