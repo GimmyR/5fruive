@@ -14,10 +14,19 @@ public class ErrorService {
 		
 	}
 	
-	public void throwExceptionIfErrorsExist(BindingResult bindingResult) throws Exception {
+	public void throwExceptionIfErrorsExist(BindingResult bindingResult, boolean isRest) throws Exception {
 		
-		if(bindingResult.hasErrors())
-			throw new Exception(bindingResult.getAllErrors().getFirst().getDefaultMessage());
+		if(bindingResult.hasErrors()) {
+			
+			String message = null;
+			
+			if(isRest)
+				message = bindingResult.getAllErrors().getFirst().getDefaultMessage();
+			
+			throw new Exception(message);
+			
+		}
+		
 		
 	}
 

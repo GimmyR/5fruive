@@ -16,12 +16,14 @@ import mg.fruive.exception.NotFoundException;
 import mg.fruive.record.CartEntryForm;
 import mg.fruive.record.FruiveResponse;
 import mg.fruive.service.CartService;
+import mg.fruive.service.ErrorService;
 
 @RestController
 @AllArgsConstructor
 public class CartRestController {
 	
 	private CartService cartService;
+	private ErrorService errorService;
 	
 	@GetMapping("/api/cart-size")
 	public ResponseEntity<FruiveResponse> getCartSize() {
@@ -39,9 +41,7 @@ public class CartRestController {
 		
 		try {
 			
-			if(bindingResult.hasErrors())
-				throw new Exception(bindingResult.getAllErrors().getFirst().getDefaultMessage());
-			
+			errorService.throwExceptionIfErrorsExist(bindingResult, true);
 			response = new FruiveResponse("Product saved in cart !", cartService.addToCart(cart.productId(), cart.amount()));
 			
 		} catch (NotFoundException e) {
@@ -86,9 +86,7 @@ public class CartRestController {
 		
 		try {
 			
-			if(bindingResult.hasErrors())
-				throw new Exception(bindingResult.getAllErrors().getFirst().getDefaultMessage());
-			
+			errorService.throwExceptionIfErrorsExist(bindingResult, true);
 			cartService.saveCart(entries);
 			response = new FruiveResponse("Cart is successfully saved !", null);
 			
