@@ -38,7 +38,7 @@ public class Restock {
 	public Restock(LocalDateTime restockDate, Account administrator, Product product, Float amount) throws InvalidValueException {
 		
 		if(amount <= 0)
-			throw new InvalidValueException("amount", "Amount to set is invalid (negative or equals to 0)");
+			throw new InvalidValueException("Amount to set should be positive");
 		
 		this.restockDate = restockDate;
 		this.administrator = administrator;

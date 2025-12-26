@@ -8,12 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InvalidValueException extends Exception {
 	
-	private String parameter;
-	
-	public InvalidValueException(String parameter, String message) {
+	public InvalidValueException(String message) {
 		
 		super(message);
-		this.parameter = parameter;
 		
 	}
 

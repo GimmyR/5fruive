@@ -43,14 +43,14 @@ public class Product {
 	
 	public void addToInStock(Float amount) throws InvalidValueException {
 		
-		this.amountShouldBeStrictlyPositive(amount, "Amount to add is invalid (negative or equals to 0)");
+		this.amountShouldBeStrictlyPositive(amount, "Amount to add should be positive");
 		this.inStock += amount;
 		
 	}
 	
 	public void subtractToInStock(Float amount) throws InvalidValueException {
 		
-		this.amountShouldBeStrictlyPositive(amount, "Amount to subtract is invalid (negative or equals to 0)");
+		this.amountShouldBeStrictlyPositive(amount, "Amount to subtract should be positive");
 		this.inStock -= amount;
 		
 	}
@@ -58,7 +58,7 @@ public class Product {
 	private void amountShouldBeStrictlyPositive(Float amount, String message) throws InvalidValueException {
 		
 		if(amount <= 0)
-			throw new InvalidValueException("amount", message);
+			throw new InvalidValueException(message);
 		
 	}
 
