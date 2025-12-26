@@ -4,13 +4,11 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
@@ -45,15 +43,7 @@ public class RestockController {
 	}
 	
 	@PostMapping("/bo/restock/{productId}")
-	@Validated
-	public String restockingByProductId(
-			Model model, 
-			Principal auth, 
-			@PathVariable Integer productId, 
-			@RequestParam
-			@Positive(message = "Amount value should be positive")
-			Float amount
-	) {
+	public String restockingByProductId(Model model, Principal auth, @PathVariable Integer productId, @RequestParam(required = false) Float amount) {
 		
 		try {
 			
@@ -67,6 +57,10 @@ public class RestockController {
 		} catch (NotFoundException e) {
 			
 			errorService.defineError(model, 404, e.getMessage());
+			
+		} catch (Exception e) {
+			
+			errorService.defineError(model, 400, e.getMessage());
 			
 		} return "restock/save/index";
 		
