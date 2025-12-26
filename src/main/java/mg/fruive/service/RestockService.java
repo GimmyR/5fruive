@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Restock;
-import mg.fruive.exception.InvalidValueException;
 import mg.fruive.repository.RestockRepository;
 
 @Service
@@ -18,9 +17,9 @@ public class RestockService {
 	
 	private RestockRepository restockRepository;
 	
-	public Restock saveRestock(Account administrator, Product product, Float amount) throws InvalidValueException {
+	public Restock saveRestock(Account administrator, Product product, Float amount) {
 		
-		Restock restock = new Restock(LocalDateTime.now(), administrator, product, amount);
+		Restock restock = new Restock(null, LocalDateTime.now(), administrator, product, amount);
 		
 		return restockRepository.save(restock);
 		

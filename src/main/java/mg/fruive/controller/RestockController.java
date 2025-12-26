@@ -4,15 +4,16 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Account;
 import mg.fruive.entity.Product;
-import mg.fruive.exception.InvalidValueException;
-import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.AccountService;
 import mg.fruive.service.ErrorService;
@@ -39,16 +40,20 @@ public class RestockController {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
-		} catch (IsMissingException e) {
-
-			errorService.defineError(model, 400, e.getMessage());
-			
 		} return "restock/save/index";
 		
 	}
 	
 	@PostMapping("/bo/restock/{productId}")
-	public String restockingByProductId(Model model, Principal auth, @PathVariable Integer productId, @RequestParam Float amount) {
+	@Validated
+	public String restockingByProductId(
+			Model model, 
+			Principal auth, 
+			@PathVariable Integer productId, 
+			@RequestParam
+			@Positive(message = "Amount value should be positive")
+			Float amount
+	) {
 		
 		try {
 			
@@ -62,14 +67,6 @@ public class RestockController {
 		} catch (NotFoundException e) {
 			
 			errorService.defineError(model, 404, e.getMessage());
-			
-		} catch (InvalidValueException e) {
-			
-			errorService.defineError(model, 402, e.getMessage());
-			
-		} catch (IsMissingException e) {
-
-			errorService.defineError(model, 400, e.getMessage());
 			
 		} return "restock/save/index";
 		

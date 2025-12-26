@@ -9,7 +9,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mg.fruive.exception.InvalidValueException;
 
 @Entity
 @Getter
@@ -41,24 +40,15 @@ public class Product {
 	
 	// METHODS :
 	
-	public void addToInStock(Float amount) throws InvalidValueException {
+	public void addToInStock(Float amount) {
 		
-		this.amountShouldBeStrictlyPositive(amount, "Amount to add should be positive");
 		this.inStock += amount;
 		
 	}
 	
-	public void subtractToInStock(Float amount) throws InvalidValueException {
+	public void subtractToInStock(Float amount) {
 		
-		this.amountShouldBeStrictlyPositive(amount, "Amount to subtract should be positive");
 		this.inStock -= amount;
-		
-	}
-	
-	private void amountShouldBeStrictlyPositive(Float amount, String message) throws InvalidValueException {
-		
-		if(amount <= 0)
-			throw new InvalidValueException(message);
 		
 	}
 

@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Product;
-import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.repository.ProductRepository;
 
@@ -48,10 +47,7 @@ public class ProductService {
 		
 	}
 	
-	public Product findUnique(Integer id) throws NotFoundException, IsMissingException {
-		
-		if(id == null)
-			throw new IsMissingException("Product ID is missing");
+	public Product findUnique(Integer id) throws NotFoundException {
 		
 		Optional<Product> opt = productRepository.findById(id);
 		

@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mg.fruive.exception.InvalidValueException;
 
 @Entity
 @Getter
@@ -34,17 +33,5 @@ public class Restock {
 	private Product product;
 	
 	private Float amount;
-	
-	public Restock(LocalDateTime restockDate, Account administrator, Product product, Float amount) throws InvalidValueException {
-		
-		if(amount <= 0)
-			throw new InvalidValueException("Amount to set should be positive");
-		
-		this.restockDate = restockDate;
-		this.administrator = administrator;
-		this.product = product;
-		this.amount = amount;
-		
-	}
 
 }

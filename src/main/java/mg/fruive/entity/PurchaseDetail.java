@@ -9,7 +9,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.OutOfStockException;
 
 @Entity
@@ -33,10 +32,7 @@ public class PurchaseDetail {
 	private Float amount;
 	private Float price;
 	
-	public PurchaseDetail(Purchase purchase, Product product, Float amount) throws InvalidValueException, OutOfStockException {
-		
-		if(amount <= 0)
-			throw new InvalidValueException(String.format("Amount of %s should be positive", product.getName()));
+	public PurchaseDetail(Purchase purchase, Product product, Float amount) throws OutOfStockException {
 		
 		if(product.getInStock() < amount)
 			throw new OutOfStockException(product.getName() + " in stock (" + product.getInStock() + " " + product.getUnit() + ") is lower than what you want to buy (" + amount + " " + product.getUnit() +")");

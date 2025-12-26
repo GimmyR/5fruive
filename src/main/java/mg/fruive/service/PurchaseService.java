@@ -22,8 +22,6 @@ import mg.fruive.entity.MostPurchased;
 import mg.fruive.entity.Product;
 import mg.fruive.entity.Purchase;
 import mg.fruive.entity.PurchaseDetail;
-import mg.fruive.exception.InvalidValueException;
-import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.repository.AccountRepository;
@@ -83,7 +81,7 @@ public class PurchaseService {
 		
 	}
 	
-	private Purchase doPurchase(Principal auth, String cardCode) throws NotFoundException, OutOfStockException, InvalidValueException {
+	private Purchase doPurchase(Principal auth, String cardCode) throws NotFoundException, OutOfStockException {
 		
 		validateCardCode(cardCode);
 		Account account = this.validateAccount(auth);
@@ -122,7 +120,7 @@ public class PurchaseService {
 		
 	}
 	
-	private void saveDetails(Purchase purchase, Cart cart) throws NotFoundException, OutOfStockException, InvalidValueException {
+	private void saveDetails(Purchase purchase, Cart cart) throws NotFoundException, OutOfStockException {
 		
 		List<PurchaseDetail> details = new ArrayList<PurchaseDetail>();
 		List<CartEntry> entries = cart.getEntries();
@@ -154,24 +152,21 @@ public class PurchaseService {
 		
 	}
 	
-	private PurchaseDetail saveDetail(Product product, Purchase purchase, CartEntry entry) throws InvalidValueException, OutOfStockException {
+	private PurchaseDetail saveDetail(Product product, Purchase purchase, CartEntry entry) throws OutOfStockException {
 		
 		PurchaseDetail detail = new PurchaseDetail(purchase, product, entry.getAmount());
 		return purchaseDetailRepository.save(detail);
 		
 	}
 	
-	private void saveProduct(Product product, CartEntry entry) throws InvalidValueException {
+	private void saveProduct(Product product, CartEntry entry) {
 		
 		product.subtractToInStock(entry.getAmount());
 		productRepository.save(product);
 		
 	}
 	
-	public Purchase findPurchase(Integer id) throws NotFoundException, IsMissingException {
-		
-		if(id == null)
-			throw new IsMissingException("Purchase ID is missing");
+	public Purchase findPurchase(Integer id) throws NotFoundException {
 		
 		Optional<Purchase> purchase = purchaseRepository.findById(id);
 		

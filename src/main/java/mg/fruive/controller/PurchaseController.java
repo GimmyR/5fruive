@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
-import mg.fruive.exception.IsMissingException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.service.ErrorService;
 import mg.fruive.service.PurchaseService;
@@ -60,7 +59,7 @@ public class PurchaseController {
 			model.addAttribute("purchase", purchaseService.findPurchase(purchaseId));
 			model.addAttribute("fullname", purchaseService.provideAccountFullname(auth));
 			
-		} catch (NotFoundException | IsMissingException e) {
+		} catch (NotFoundException e) {
 			
 			errorService.defineError(model, 404, e.getMessage());
 			
