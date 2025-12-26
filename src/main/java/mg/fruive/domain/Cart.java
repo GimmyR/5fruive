@@ -49,10 +49,24 @@ public class Cart {
 		
 	}
 	
-	private void put(Integer productId, Float amount, Float inStock) throws InvalidValueException, OutOfStockException {
+	public void add(Integer productId, Float amount, Float inStock) throws InvalidValueException, OutOfStockException {
+		
+		if(amount <= 0)
+			throw new InvalidValueException("Amount to add to cart should be positive");
+		
+		Float number = this.getAmountByProductId(productId);
+		
+		if(number == null)
+			number = (float) 0;
+		
+		this.put(productId, number + amount, inStock);
+		
+	}
+	
+	public void put(Integer productId, Float amount, Float inStock) throws InvalidValueException, OutOfStockException {
 		
 		if(amount > inStock)
-			throw new OutOfStockException(String.format("Amount in stock (%.2f) is fewer that total amount : %.2f", inStock, amount));
+			throw new OutOfStockException(String.format("Amount in stock (%.2f) is fewer than amount to buy : %.2f", inStock, amount));
 		
 		Integer index = null;
 		
@@ -88,23 +102,6 @@ public class Cart {
 			}
 			
 		} return result;
-		
-	}
-	
-	public void add(Integer productId, Float amount, Float inStock) throws InvalidValueException, OutOfStockException {
-		
-		if(amount <= 0)
-			throw new InvalidValueException("amount", "Amount to add to cart is invalid (negative or equals to 0)");
-		
-		if(amount > inStock)
-			throw new OutOfStockException(String.format("Amount in stock (%.2f) is fewer that amount to add : %.2f", inStock, amount));
-		
-		Float number = this.getAmountByProductId(productId);
-		
-		if(number == null)
-			number = (float) 0;
-		
-		this.put(productId, amount + number, inStock);
 		
 	}
 

@@ -1,20 +1,22 @@
 const addToCart = async (product) => {
 	const inputAddToCart = document.getElementById("input-add-to-cart-" + product.id);
-	
 	const data = new FormData();
 	data.append("productId", product.id);
-	data.append("amount", inputAddToCart.value);
+	data.append("amount", parseFloat(inputAddToCart.value));
 	
 	const response = await fetch("/api/cart/add", { 
 		method: "POST",
 		body: data
 	});
 	
-	if(!response.ok)
-		console.log(response.status);
+	if(!response.ok) {
+		const res = await response.json();
+		console.log(response.status, res.message);
 	
-	const res = await response.json();
-	displayCartCounter(res.data);
+	} else {
+		const res = await response.json();
+		displayCartCounter(res.data);	
+	}
 };
 
 const displayCartCounter = (size) => {

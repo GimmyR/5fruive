@@ -15,6 +15,7 @@ import mg.fruive.entity.Product;
 import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
+import mg.fruive.record.CartEntryForm;
 import mg.fruive.repository.ProductRepository;
 
 @Service
@@ -48,23 +49,12 @@ public class CartService {
 	
 	public Integer addToCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
-		this.validateInput(productId, amount);
 		Cart cart = this.getCart();
 		
 		if(cart == null)
 			cart = new Cart();
 		
 		return this.addOrPut(cart, productId, amount);
-		
-	}
-	
-	private void validateInput(Integer productId, Float amount) {
-		
-		if(productId == null)
-			throw new NullPointerException("Product ID is missing");
-		
-		else if(amount == null)
-			throw new NullPointerException("Amount of a product (ID: " + productId + ") is missing");
 		
 	}
 	
@@ -140,7 +130,7 @@ public class CartService {
 		
 	}
 	
-	public void saveCart(List<CartEntry> entries) throws NotFoundException, OutOfStockException, InvalidValueException {
+	public void saveCart(List<CartEntryForm> entries) throws NotFoundException, OutOfStockException, InvalidValueException {
 		
 		Cart cart = this.getCart();
 		
@@ -149,11 +139,10 @@ public class CartService {
 		
 		for(int i = 0; i < entries.size(); i++) {
 			
-			Integer productId = entries.get(i).getProductId();
-			Float amount = entries.get(i).getAmount();
-			this.validateInput(productId, amount);
+			Integer productId = entries.get(i).productId();
+			Float amount = entries.get(i).amount();
 			Product product = this.findProduct(productId);
-			cart.add(productId, amount, product.getInStock());
+			cart.put(productId, amount, product.getInStock());
 			
 		} httpSession.setAttribute("cart", cart);
 		
