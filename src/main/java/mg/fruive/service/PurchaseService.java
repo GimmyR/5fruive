@@ -10,11 +10,9 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallback;
-import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 import mg.fruive.domain.Cart;
 import mg.fruive.domain.CartEntry;
 import mg.fruive.entity.Account;
@@ -31,7 +29,7 @@ import mg.fruive.repository.PurchaseDetailRepository;
 import mg.fruive.repository.PurchaseRepository;
 
 @Service
-//@AllArgsConstructor
+@AllArgsConstructor
 public class PurchaseService {
 	
 	private final HttpSession httpSession;
@@ -39,54 +37,16 @@ public class PurchaseService {
 	private PurchaseRepository purchaseRepository;
 	private PurchaseDetailRepository purchaseDetailRepository;
 	private ProductRepository productRepository;
-	private final TransactionTemplate transactionTemplate;
 	private MostPurchasedRepository mostPurchasedRepository;
-	
-	public PurchaseService(HttpSession httpSession, AccountRepository accountRepository,
-			PurchaseRepository purchaseRepository, PurchaseDetailRepository purchaseDetailRepository,
-			ProductRepository productRepository, PlatformTransactionManager transactionManager, MostPurchasedRepository mostPurchasedRepository) {
-		
-		this.httpSession = httpSession;
-		this.accountRepository = accountRepository;
-		this.purchaseRepository = purchaseRepository;
-		this.purchaseDetailRepository = purchaseDetailRepository;
-		this.productRepository = productRepository;
-		this.transactionTemplate = new TransactionTemplate(transactionManager);
-		this.mostPurchasedRepository = mostPurchasedRepository;
-		
-	}
 
-	public Object buyProducts(Principal auth, String cardCode) {
+	@Transactional(rollbackFor = {NotFoundException.class, OutOfStockException.class})
+	public Purchase buyProducts(Principal auth, String cardCode) throws NotFoundException, OutOfStockException {
 		
-		return transactionTemplate.execute(new TransactionCallback<>() {
-			
-			public Object doInTransaction(TransactionStatus status) {
-				
-				Object result = null;
-				
-				try {
-					
-					result = doPurchase(auth, cardCode);
-					
-				} catch (Exception e) {
-					
-					status.setRollbackOnly();
-					result = e.getMessage();
-					
-				} return result;
-				
-			}
-			
-		});
+		Purchase purchase = null;
 		
-	}
-	
-	private Purchase doPurchase(Principal auth, String cardCode) throws NotFoundException, OutOfStockException {
-		
-		validateCardCode(cardCode);
 		Account account = this.validateAccount(auth);
 		Cart cart = this.getCart();
-		Purchase purchase = new Purchase(null, LocalDateTime.now(), account, null);
+		purchase = new Purchase(null, LocalDateTime.now(), account, null);
 		purchase = purchaseRepository.save(purchase);
 		this.saveDetails(purchase, cart);
 		
@@ -102,13 +62,6 @@ public class PurchaseService {
 			return (Cart) cart;
 		
 		else throw new NotFoundException("Cart not found");
-		
-	}
-	
-	private void validateCardCode(String cardCode) throws NotFoundException {
-		
-		if(cardCode == null || cardCode.isBlank())
-			throw new NotFoundException("Card code not found");
 		
 	}
 	

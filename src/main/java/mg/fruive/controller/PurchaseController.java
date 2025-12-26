@@ -4,10 +4,14 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
 import mg.fruive.exception.NotFoundException;
@@ -30,22 +34,30 @@ public class PurchaseController {
 	}
 	
 	@PostMapping("/payment")
-	public String buyProducts(Principal auth, Model model, @RequestParam(name = "card-code", required = false) String cardCode) {
+	@Validated
+	public String buyProducts(Principal auth, Model model, @RequestParam(name = "card-code", required = false)
+															@NotBlank(message = "Card code is missing")
+															String cardCode,
+															BindingResult bindingResult) {
 		
 		model.addAttribute("auth", auth);
-		Object result = purchaseService.buyProducts(auth, cardCode);
+		String view = "payment/index";
 		
-		if(result instanceof Purchase) {
+		try {
 			
-			Purchase purchase = (Purchase) result;
-			return "redirect:/bill/" + purchase.getId();
+			errorService.throwExceptionIfErrorsExist(bindingResult);
+			Purchase purchase = purchaseService.buyProducts(auth, cardCode);
+			view = "redirect:/bill/" + purchase.getId();
 			
-		} else {
+		} catch (NotFoundException e) {
 			
-			errorService.defineError(model, 400, result.toString());
-			return "payment/index";
+			errorService.defineError(model, 404, e.getMessage());
 			
-		}
+		} catch (Exception e) {
+			
+			errorService.defineError(model, 400, e.getMessage());
+			
+		} return view;
 		
 	}
 	
