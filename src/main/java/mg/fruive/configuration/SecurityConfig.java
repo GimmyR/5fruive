@@ -15,9 +15,9 @@ import mg.fruive.service.UserDetailService;
 public class SecurityConfig {
 	
 	private UserDetailService userDetailService;
-	
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         // Disable CSRF for API
 		httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
