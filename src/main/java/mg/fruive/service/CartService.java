@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import mg.fruive.domain.Cart;
 import mg.fruive.domain.CartEntry;
 import mg.fruive.entity.Product;
-import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 import mg.fruive.record.CartEntryForm;
@@ -47,7 +46,7 @@ public class CartService {
 		
 	}
 	
-	public Integer addToCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException, InvalidValueException {
+	public Integer addToCart(Integer productId, Float amount) throws NotFoundException, OutOfStockException {
 		
 		Cart cart = this.getCart();
 		
@@ -58,7 +57,7 @@ public class CartService {
 		
 	}
 	
-	private Integer addOrPut(Cart cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException, InvalidValueException {
+	private Integer addOrPut(Cart cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
 		
 		Product product = this.findProduct(productId);
 		cart.add(productId, amount, product.getInStock());
@@ -130,7 +129,7 @@ public class CartService {
 		
 	}
 	
-	public void saveCart(List<CartEntryForm> entries) throws NotFoundException, OutOfStockException, InvalidValueException {
+	public void saveCart(List<CartEntryForm> entries) throws NotFoundException, OutOfStockException {
 		
 		Cart cart = this.getCart();
 		

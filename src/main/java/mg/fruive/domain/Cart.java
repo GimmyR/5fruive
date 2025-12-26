@@ -5,7 +5,6 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import mg.fruive.exception.InvalidValueException;
 import mg.fruive.exception.OutOfStockException;
 
 @Getter
@@ -49,10 +48,7 @@ public class Cart {
 		
 	}
 	
-	public void add(Integer productId, Float amount, Float inStock) throws InvalidValueException, OutOfStockException {
-		
-		if(amount <= 0)
-			throw new InvalidValueException("Amount to add to cart should be positive");
+	public void add(Integer productId, Float amount, Float inStock) throws OutOfStockException {
 		
 		Float number = this.getAmountByProductId(productId);
 		
@@ -63,7 +59,7 @@ public class Cart {
 		
 	}
 	
-	public void put(Integer productId, Float amount, Float inStock) throws InvalidValueException, OutOfStockException {
+	public void put(Integer productId, Float amount, Float inStock) throws OutOfStockException {
 		
 		if(amount > inStock)
 			throw new OutOfStockException(String.format("Amount in stock (%.2f) is fewer than amount to buy : %.2f", inStock, amount));
