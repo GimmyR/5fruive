@@ -4,21 +4,21 @@ import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import mg.fruive.entity.Purchase;
 import mg.fruive.exception.NotFoundException;
+import mg.fruive.record.CardForm;
 import mg.fruive.service.ErrorService;
 import mg.fruive.service.PurchaseService;
 
 @Controller
 @AllArgsConstructor
-@Validated
 public class PurchaseController {
 	
 	private PurchaseService purchaseService;
@@ -28,19 +28,21 @@ public class PurchaseController {
 	public String providePaymentMethod(Principal auth, Model model) {
 		
 		model.addAttribute("auth", auth);
+		model.addAttribute("cardForm", new CardForm(null));
 		return "payment/index";
 		
 	}
 	
 	@PostMapping("/payment")
-	public String buyProducts(Principal auth, Model model, @RequestParam(name = "card-code", required = false) String cardCode) {
+	public String buyProducts(Principal auth, Model model, @Valid @ModelAttribute CardForm cardForm, BindingResult bindingResult) {
 		
 		model.addAttribute("auth", auth);
 		String view = "payment/index";
 		
 		try {
 			
-			Purchase purchase = purchaseService.buyProducts(auth, cardCode);
+			errorService.throwExceptionIfErrorsExist(bindingResult, false);
+			Purchase purchase = purchaseService.buyProducts(auth, cardForm.code());
 			view = "redirect:/bill/" + purchase.getId();
 			
 		} catch (NotFoundException e) {
