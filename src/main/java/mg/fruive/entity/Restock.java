@@ -11,8 +11,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mg.fruive.exception.IsMissingException;
-import mg.fruive.exception.NegativeOrZeroException;
 
 @Entity
 @Getter
@@ -35,20 +33,5 @@ public class Restock {
 	private Product product;
 	
 	private Float amount;
-	
-	public Restock(LocalDateTime restockDate, Account administrator, Product product, Float amount) throws NegativeOrZeroException, IsMissingException {
-		
-		if(amount == null)
-			throw new IsMissingException("Amount value is missing");
-		
-		if(amount <= 0)
-			throw new NegativeOrZeroException("Amount value should be positive");
-		
-		this.restockDate = restockDate;
-		this.administrator = administrator;
-		this.product = product;
-		this.amount = amount;
-		
-	}
 
 }
