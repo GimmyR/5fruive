@@ -1,21 +1,29 @@
 const addToCart = async (product) => {
 	const inputAddToCart = document.getElementById("input-add-to-cart-" + product.id);
-	const data = new FormData();
-	data.append("productId", product.id);
-	data.append("amount", parseFloat(inputAddToCart.value));
-	
 	const response = await fetch("/api/cart/add", { 
 		method: "POST",
-		body: data
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			productId: product.id,
+			amount: inputAddToCart.value.trim().length == 0 ? undefined : parseFloat(inputAddToCart.value)
+		})
 	});
 	
 	if(!response.ok) {
+		
 		const res = await response.json();
-		console.log(response.status, res.message);
+		const toastContent = document.getElementById("toast-content");
+		toastContent.innerText = res.message;
+		const toast = bootstrap.Toast.getOrCreateInstance(document.getElementById("liveToast"));
+		toast.show();
 	
 	} else {
+		
 		const res = await response.json();
 		displayCartCounter(res.data);	
+		
 	}
 };
 

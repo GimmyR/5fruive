@@ -34,7 +34,7 @@ public class CartRestController {
 	}
 	
 	@PostMapping("/api/cart/add")
-	public ResponseEntity<FruiveResponse> addToCart(@Valid CartEntryForm cart, BindingResult bindingResult) {
+	public ResponseEntity<FruiveResponse> addToCart(@Valid @RequestBody CartEntryForm cart, BindingResult bindingResult) {
 		
 		int status = 201;
 		FruiveResponse response = null;
