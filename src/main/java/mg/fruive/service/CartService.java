@@ -124,7 +124,7 @@ public class CartService {
 			
 			else this.resetCart();
 			
-		}
+		} else throw new NotFoundException("Cart not found");
 		
 	}
 	
