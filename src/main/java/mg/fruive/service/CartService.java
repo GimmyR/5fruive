@@ -24,7 +24,7 @@ public class CartService {
 	private final HttpSession httpSession;
 	private ProductRepository productRepository;
 	
-	public Cart getCart() {
+	private Cart getCart() {
 		
 		Object cart = httpSession.getAttribute("cart");
 		
