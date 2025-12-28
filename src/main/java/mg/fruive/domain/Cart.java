@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 
 @Getter
@@ -31,31 +32,37 @@ public class Cart {
 		
 	}
 	
-	public Float getAmountByProductId(Integer productId) {
+	private int findIndexByProductId(Integer productId) throws NotFoundException {
 		
-		Float result = null;
+		int index = entries.indexOf(new CartEntry(productId, null));
 		
-		for(int i = 0; i < entries.size(); i++) {
-			
-			if(entries.get(i).getProductId() == productId) {
-				
-				result = entries.get(i).getAmount();
-				break;
-				
-			}
-			
-		} return result;
+		if(index < 0)
+			throw new NotFoundException("Product ID not found");
+		
+		return index;
+		
+	}
+	
+	public Float getAmountByProductId(Integer productId) throws NotFoundException {
+		
+		int index = this.findIndexByProductId(productId);
+		return entries.get(index).getAmount();
 		
 	}
 	
 	public void add(Integer productId, Float amount, Float inStock) throws OutOfStockException {
 		
-		Float number = this.getAmountByProductId(productId);
+		Float number = null;
 		
-		if(number == null)
+		try {
+			
+			number = this.getAmountByProductId(productId);
+			
+		} catch (NotFoundException e) {
+			
 			number = (float) 0;
-		
-		this.put(productId, number + amount, inStock);
+			
+		} this.put(productId, number + amount, inStock);
 		
 	}
 	
@@ -64,40 +71,23 @@ public class Cart {
 		if(amount > inStock)
 			throw new OutOfStockException(String.format("Amount in stock (%.2f) is fewer than amount to buy : %.2f", inStock, amount));
 		
-		Integer index = null;
-		
-		for(int i = 0; i < entries.size(); i++) {
+		try {
 			
-			if(entries.get(i).getProductId() == productId) {
-				
-				entries.get(i).setAmount(amount);
-				index = i;
-				break;
-				
-			}
+			Integer index = this.findIndexByProductId(productId);
+			this.entries.get(index).setAmount(amount);
+			
+		} catch (NotFoundException e) {
+			
+			this.entries.add(new CartEntry(productId, amount));
 			
 		}
 		
-		if(index == null)
-			entries.add(new CartEntry(productId, amount));
-		
 	}
 	
-	public Float remove(Integer productId) {
+	public void remove(Integer productId) throws NotFoundException {
 		
-		Float result = null;
-		
-		for(int i = 0; i < entries.size(); i++) {
-			
-			if(entries.get(i).getProductId() == productId) {
-				
-				result = entries.get(i).getAmount();
-				entries.remove(i);
-				break;
-				
-			}
-			
-		} return result;
+		if(!this.entries.remove(new CartEntry(productId, null)))
+			throw new NotFoundException("Product ID not found");
 		
 	}
 

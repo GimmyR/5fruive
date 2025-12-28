@@ -117,8 +117,7 @@ public class CartService {
 		
 		if(cart != null) {
 			
-			if(cart.remove(productId) == null)
-				throw new NotFoundException("Product not found in cart.");
+			cart.remove(productId);
 			
 			if(cart.size() > 0)
 				httpSession.setAttribute("cart", cart);
