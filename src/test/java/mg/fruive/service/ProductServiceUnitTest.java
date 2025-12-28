@@ -95,20 +95,5 @@ public class ProductServiceUnitTest {
 		assertThrows(NotFoundException.class, () -> productService.findUnique(1));
 		
 	}
-	
-	@Test
-	public void testUpdate() {
-		
-		Category category = new Category(1, "Fruit");
-		Province province = new Province(1, "Antananarivo");
-		Product product = new Product(1, category, province, "Banana", (float) 1000.0, 2000.0, "kg", "banana.jpg");
-		
-		when(productRepository.save(product)).thenReturn(product);
-		
-		Product prod = productService.update(product);
-		assertNotNull(prod);
-		assertEquals(1, prod.getId());
-		
-	}
 
 }

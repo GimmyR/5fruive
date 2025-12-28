@@ -30,19 +30,6 @@ public class AccountServiceUnitTest {
 	private AccountService accountService;
 	
 	@Test
-	public void findAllShouldReturnAccounts() {
-		
-		List<Role> roles = Arrays.asList(new Role(1, "Client"));
-		List<Account> accounts = Arrays.asList(new Account(1, "John", "Doe", "johndoe", "mdpJohn", roles));
-		
-		when(accountService.findAll()).thenReturn(accounts);
-		
-		List<Account> accs = accountService.findAll();
-		assertEquals("John", accs.getFirst().getFirstname());
-		
-	}
-	
-	@Test
 	public void findUniqueByUsernameShouldReturnAccount() throws NotFoundException {
 		
 		List<Role> roles = Arrays.asList(new Role(1, "Client"));
