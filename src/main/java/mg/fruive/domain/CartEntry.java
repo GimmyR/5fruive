@@ -13,5 +13,11 @@ public class CartEntry {
 	
 	private Integer productId;
 	private Float amount;
+	
+	@Override
+	public boolean equals(Object obj) {
+		CartEntry entry = (CartEntry) obj;
+		return productId == entry.productId;
+	}
 
 }
