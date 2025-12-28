@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import mg.fruive.domain.Cart;
 import mg.fruive.exception.NotFoundException;
 import mg.fruive.exception.OutOfStockException;
 
