@@ -10,7 +10,7 @@ services:
         ports:
             - "5432:5432"
         volumes:
-            - ./appdata/postgres:/var/lib/postgresql
+            - ./postgres:/var/lib/postgresql
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U admin -d fruive"]
             interval: 5s
@@ -28,4 +28,4 @@ services:
         environment:
             DB_URL: jdbc:postgresql://db:5432/fruive
             DB_USER: admin
-            DB_PASSWORD: 1233
+            DB_PASSWORD: 123
