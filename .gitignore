@@ -37,4 +37,4 @@ build/
 .env
 
 ### Application data
-appdata/postgres
+postgres
