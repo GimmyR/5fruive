@@ -17,15 +17,6 @@ Run the command :
 docker compose up --build
 ```
 
-## Feed the database
+## Login in the application
 
-Run this command to connect to the database :
-
-```bash
-docker exec -it postgres-5fruive psql -U admin -d fruive
-```
-
-Copy the content of **appdata/database-data.sql** file and paste it there (don't forget to press **Enter**).
-
-Type ``exit`` (and press **Enter**) to quit the database.
-
+If you want to sign in as a client or an administrator, you can find user informations in *src/main/resources/data.sql*.
