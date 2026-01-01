@@ -14,14 +14,14 @@
 				<div th:each="product, iter : ${ products }" class="mb-3">
 					<label th:for="${ 'in-cart-' + product.id }" th:text="${ product.name + ' (' + product.unit + ')' }" class="form-label">Product name (unit)</label>
 					<div class="d-flex flex-row">
-						<input type="number" th:id="${ 'in-cart-' + product.id }" class="form-control" th:value="${ amounts[iter.index] }">
+						<input type="number" th:id="${ 'in-cart-' + product.id }" class="form-control" min="0" step="0.01" th:value="${ amounts[iter.index] }">
 						<button type="button" th:id="${ 'button-remove-product-' + product.id }" class="btn btn-danger ms-2">Remove</button>
 					</div>
 					<div class="form-text ms-2" th:text="${ product.price + ' Ar / ' + product.unit }">Product price / product unit</div>
 				</div>
 				<div class="mb-5">
 					<label for="total-price" class="form-label text-danger">Total price (Ar)</label>
-					<input type="number" id="total-price" class="form-control" th:value="${ totalPrice }">
+					<input type="number" id="total-price" class="form-control" min="0" step="0.01" th:value="${ totalPrice }" disabled>
 				</div>
 				<div class="d-flex flex-row align-items-center pt-4" th:if="${ products != null && amounts != null }">
 					<div class="col-4">

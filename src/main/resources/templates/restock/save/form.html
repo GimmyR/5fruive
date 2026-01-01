@@ -8,7 +8,7 @@
 					<p class="ps-3"><span class="text-decoration-underline">In stock</span> : <span th:text="${ product.inStock + ' ' + product.unit }" class="text-secondary">Product amount</span></p>
 				</div>
 				<div class="input-group">
-					<input type="number" class="form-control" th:field="*{amount}" step="0.01" th:placeholder="${ 'Amount in ' + product.unit }"/>
+					<input type="number" class="form-control" th:field="*{amount}" min="0" step="0.01" th:placeholder="${ 'Amount in ' + product.unit }"/>
 					<button type="submit" class="btn btn-warning">Restock <span th:text="${ product.name }"></span></button>
 				</div>
 				<div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="form-text text-danger text-center pt-3">Unknown error. Please contact an administrator.</div>
