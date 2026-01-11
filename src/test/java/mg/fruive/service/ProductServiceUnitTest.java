@@ -64,7 +64,7 @@ public class ProductServiceUnitTest {
 		List<Product> products = Arrays.asList(new Product(1, category, province, search, (float) 1000.0, 2000.0, "kg", "banana.jpg"));
 		Page<Product> page = new PageImpl<Product>(products);
 		
-		when(productRepository.findAll(PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
+		when(productRepository.findByNameLikeIgnoreCase("%%", PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
 		
 		Map<String, Object> result = productService.findAll(null, null, false);
 		List<Product> prods = ((List<Product>)result.get("products"));
