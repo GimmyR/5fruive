@@ -24,7 +24,7 @@ public class UserDetailService implements UserDetailsService {
 		if(username == null)
 			throw new UsernameNotFoundException("Username is missing");
 		
-		Optional<Account> account = accountRepository.findByUsername(username);
+		Optional<Account> account = accountRepository.findByUsernameWithRoles(username);
 		
 		if(account.isEmpty())
 			throw new UsernameNotFoundException(String.format("User %s not found", username));
