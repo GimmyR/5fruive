@@ -37,7 +37,7 @@ public class ProductServiceUnitTest {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testFindByNameLikeIgnoreCase() {
+	public void testFindAll() {
 		
 		String search = "Banana";
 		Category category = new Category(1, "Fruit");
@@ -48,25 +48,6 @@ public class ProductServiceUnitTest {
 		when(productRepository.findByNameLikeIgnoreCase("%" + search + "%", PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
 		
 		Map<String, Object> result = productService.findAll(search, null, false);
-		List<Product> prods = ((List<Product>)result.get("products"));
-		assertEquals(1, prods.size());
-		assertEquals("Banana", prods.getFirst().getName());
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testFindAll() {
-		
-		String search = "Banana";
-		Category category = new Category(1, "Fruit");
-		Province province = new Province(1, "Antananarivo");
-		List<Product> products = Arrays.asList(new Product(1, category, province, search, (float) 1000.0, 2000.0, "kg", "banana.jpg"));
-		Page<Product> page = new PageImpl<Product>(products);
-		
-		when(productRepository.findByNameLikeIgnoreCase("%%", PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
-		
-		Map<String, Object> result = productService.findAll(null, null, false);
 		List<Product> prods = ((List<Product>)result.get("products"));
 		assertEquals(1, prods.size());
 		assertEquals("Banana", prods.getFirst().getName());
