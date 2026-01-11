@@ -1,6 +1,7 @@
 package mg.fruive.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,12 +22,12 @@ public class PurchaseDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Purchase purchase;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Product product;
 	
 	private Float amount;

@@ -1,5 +1,6 @@
 package mg.fruive.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -32,8 +33,8 @@ public class Account {
 	
 	private String password;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable
-	private List<Role> roles;
+	private List<Role> roles = new ArrayList<Role>();
 
 }

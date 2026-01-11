@@ -3,6 +3,7 @@ package mg.fruive.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,12 +25,12 @@ public class Restock {
 	
 	private LocalDateTime restockDate;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Account administrator;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Product product;
 	
 	private Float amount;

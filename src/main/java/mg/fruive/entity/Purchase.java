@@ -10,9 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +27,11 @@ public class Purchase {
 	private Integer id;
 	private LocalDateTime purchaseDate;
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Account purchaser;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	@JoinTable
+	@OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<PurchaseDetail> details;
 	
 	// METHODS :
