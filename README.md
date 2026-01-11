@@ -22,7 +22,7 @@ You can do that by installing [Docker Desktop](https://www.docker.com/products/d
 Open a terminal in the project's root directory and run the following command :
 
 ```bash
-docker compose up --build
+docker compose --profile dev up --build
 ```
 
 You can access the application in your browser at http://localhost:8080.
