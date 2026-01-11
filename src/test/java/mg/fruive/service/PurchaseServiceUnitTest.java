@@ -138,7 +138,7 @@ public class PurchaseServiceUnitTest {
 		when(purchaseDetailRepository.save(any(PurchaseDetail.class))).thenReturn(new PurchaseDetail(1, pur, product, (float) 1, (float) 2000));
 		
 		Purchase purchase = purchaseService.buyProducts(auth, "65376");
-		assertEquals("Banana", purchase.getDetails().getFirst().getId()); // A CHANGER LA VALEUR A COMPARER
+		assertEquals(1, purchase.getDetails().getFirst().getId());
 		
 	}
 
