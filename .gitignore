@@ -36,5 +36,5 @@ build/
 ### Environment variables
 .env
 
-### Application data
+### Application data (I have data.sql for this)
 postgres
