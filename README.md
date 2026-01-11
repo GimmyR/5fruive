@@ -1,5 +1,7 @@
 # 5Fruive
 
+[![5Fruive](https://github.com/GimmyR/5fruive/actions/workflows/ci.yaml/badge.svg)](https://github.com/GimmyR/5fruive/actions/workflows/ci.yaml)
+
 **Live demo:** https://fruive-kl21m.eu-east-1.migetapp.com/
 
 **5Fruive** is an e-commerce application made with **Spring Boot** and **PostgreSQL**.
