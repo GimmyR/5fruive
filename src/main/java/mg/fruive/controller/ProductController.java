@@ -23,7 +23,7 @@ public class ProductController {
 	@GetMapping("/")
 	public String getHome(Principal auth, Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
 		
-		model.addAllAttributes(productService.findAll(search, page, false));
+		model.addAllAttributes(productService.findAll(search, page, true));
 		model.addAttribute("auth", auth);
 		return "home/index";
 		
