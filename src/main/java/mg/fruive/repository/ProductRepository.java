@@ -19,7 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	Page<Product> findByNameLikeIgnoreCase(String name, Pageable pageable);
 	
-	@Query("select p from Product p joint fetch p.category join fetch p.province where lower(p.name) like lower(:name)")
+	@Query("select p from Product p join fetch p.category join fetch p.province where lower(p.name) like lower(:name)")
 	Page<Product> findByNameWithCategoryAndProvince(@Param("name") String name, Pageable pageable);
 
 }
