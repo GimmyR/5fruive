@@ -94,7 +94,7 @@ public class CartServiceUnitTest {
 		Cart cart = new Cart();
 		cart.add(product.getId(), (float) 1, product.getInStock());
 		when(this.httpSession.getAttribute("cart")).thenReturn(cart);
-		when(this.productRepository.findById(1)).thenReturn(Optional.of(product));
+		when(this.productRepository.findByIdWithCategoryAndProvince(1)).thenReturn(Optional.of(product));
 		
 		Map<String, Object> map = this.cartService.prepareCartView();
 		List<Product> products = (List<Product>) map.get("products");

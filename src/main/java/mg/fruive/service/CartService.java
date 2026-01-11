@@ -59,16 +59,21 @@ public class CartService {
 	
 	private Integer addOrPut(Cart cart, Integer productId, Float amount) throws NotFoundException, OutOfStockException {
 		
-		Product product = this.findProduct(productId);
+		Product product = this.findProduct(productId, false);
 		cart.add(productId, amount, product.getInStock());
 		httpSession.setAttribute("cart", cart);
 		return cart.size();
 		
 	}
 	
-	private Product findProduct(Integer productId) throws NotFoundException {
+	private Product findProduct(Integer productId, Boolean withCategoryAndProvince) throws NotFoundException {
 		
-		Optional<Product> opt = productRepository.findById(productId);
+		Optional<Product> opt = null;
+		
+		if(withCategoryAndProvince)
+			opt = productRepository.findByIdWithCategoryAndProvince(productId);
+		
+		else opt = productRepository.findById(productId);
 		
 		if(opt.isEmpty())
 			throw new NotFoundException("Product not found");
@@ -90,7 +95,7 @@ public class CartService {
 			
 			for(CartEntry entry : cart.getEntries()) {
 				
-				Product product = this.findProduct(entry.getProductId());
+				Product product = this.findProduct(entry.getProductId(), true);
 				products.add(product);
 				amounts.add(entry.getAmount());
 				totalPrice += (float)(product.getPrice() * entry.getAmount());
@@ -139,7 +144,7 @@ public class CartService {
 			
 			Integer productId = entries.get(i).productId();
 			Float amount = entries.get(i).amount();
-			Product product = this.findProduct(productId);
+			Product product = this.findProduct(productId, false);
 			cart.put(productId, amount, product.getInStock());
 			
 		} httpSession.setAttribute("cart", cart);
