@@ -4,15 +4,15 @@ services:
         container_name: postgres-5fruive
         restart: unless-stopped
         environment:
-            POSTGRES_USER: admin
-            POSTGRES_PASSWORD: 123
-            POSTGRES_DB: fruive
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
         ports:
             - "5432:5432"
         volumes:
-            - ./postgres:/var/lib/postgresql
+            - postgres-5fruive:/var/lib/postgresql
         healthcheck:
-            test: ["CMD-SHELL", "pg_isready -U admin -d fruive"]
+            test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
             interval: 5s
             timeout: 5s
             retries: 5
@@ -27,5 +27,8 @@ services:
             - "8080:8080"
         environment:
             DB_URL: jdbc:postgresql://db:5432/fruive
-            DB_USER: admin
-            DB_PASSWORD: 123
+            DB_USER: ${DB_USER}
+            DB_PASSWORD: ${DB_PASSWORD}
+            
+volumes:
+   postgres-5fruive:
