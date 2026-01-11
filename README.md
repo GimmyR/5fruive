@@ -6,6 +6,8 @@
 
 **5Fruive** is an e-commerce application made with **Spring Boot** and **PostgreSQL**.
 
+![Home page](./screenshots/home.png)
+
 ## Prerequisites
 
 Before building or running the application, make sure you have the following installed :
