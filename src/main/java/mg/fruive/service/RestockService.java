@@ -26,7 +26,7 @@ public class RestockService {
 	
 	public List<Restock> findAll() {
 		
-		return restockRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		return restockRepository.findAllWithAdministratorAndProduct(Sort.by(Sort.Direction.ASC, "id"));
 		
 	}
 

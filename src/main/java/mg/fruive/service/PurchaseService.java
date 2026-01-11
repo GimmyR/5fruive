@@ -154,7 +154,7 @@ public class PurchaseService {
 	
 	public List<Purchase> findAll() {
 		
-		return purchaseRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
+		return purchaseRepository.findAllWithPurchaserAndDetails(Sort.by(Sort.Direction.ASC, "id"));
 		
 	}
 	

@@ -23,7 +23,7 @@ public class ProductController {
 	@GetMapping("/")
 	public String getHome(Principal auth, Model model, @RequestParam(required = false) String search, @RequestParam(name = "p", required = false) Integer page) {
 		
-		model.addAllAttributes(productService.findAll(search, page));
+		model.addAllAttributes(productService.findAll(search, page, false));
 		model.addAttribute("auth", auth);
 		return "home/index";
 		
@@ -36,7 +36,7 @@ public class ProductController {
 		
 		try {
 		
-			model.addAttribute("product", productService.findUnique(productId));
+			model.addAttribute("product", productService.findUniqueWithCategoryAndProvince(productId));
 		
 		} catch (NotFoundException e) {
 			
@@ -51,7 +51,7 @@ public class ProductController {
 		
 		model.addAttribute("active", "products");
 		model.addAttribute("url", "/bo/products");
-		model.addAllAttributes(productService.findAll(search, page));
+		model.addAllAttributes(productService.findAll(search, page, true));
 		return "products/index";
 		
 	}

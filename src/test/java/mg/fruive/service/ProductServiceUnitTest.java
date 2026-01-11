@@ -47,7 +47,7 @@ public class ProductServiceUnitTest {
 		
 		when(productRepository.findByNameLikeIgnoreCase("%" + search + "%", PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
 		
-		Map<String, Object> result = productService.findAll(search, null);
+		Map<String, Object> result = productService.findAll(search, null, false);
 		List<Product> prods = ((List<Product>)result.get("products"));
 		assertEquals(1, prods.size());
 		assertEquals("Banana", prods.getFirst().getName());
@@ -66,7 +66,7 @@ public class ProductServiceUnitTest {
 		
 		when(productRepository.findAll(PageRequest.of(0, 9, Sort.by(Sort.Direction.ASC, "id")))).thenReturn(page);
 		
-		Map<String, Object> result = productService.findAll(null, null);
+		Map<String, Object> result = productService.findAll(null, null, false);
 		List<Product> prods = ((List<Product>)result.get("products"));
 		assertEquals(1, prods.size());
 		assertEquals("Banana", prods.getFirst().getName());

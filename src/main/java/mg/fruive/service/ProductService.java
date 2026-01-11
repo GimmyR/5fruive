@@ -23,7 +23,7 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	
-	public Map<String, Object> findAll(String search, Integer page) {
+	public Map<String, Object> findAll(String search, Integer page, boolean withCategoryAndProvince) {
 		
 		Map<String, Object> result = new HashMap<>();
 		Page<Product> products = null;
@@ -31,11 +31,17 @@ public class ProductService {
 		if(page == null)
 			page = 0;
 		
-		if(search != null)
-			products = productRepository.findByNameLikeIgnoreCase("%" + search + "%", PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
+		if(search == null)
+			search = "";
 		
-		else products = productRepository.findAll(PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id")));
-			
+		search = "%" + search + "%";
+		PageRequest request = PageRequest.of(page, ITEMS_PER_PAGE, Sort.by(Sort.Direction.ASC, "id"));
+		
+		if(!withCategoryAndProvince)
+			products = productRepository.findByNameLikeIgnoreCase(search, request);
+		
+		else products = productRepository.findByNameWithCategoryAndProvince(search, request);
+		
 		result.put("products", products.toList());
 		result.put("numberOfPages", products.getTotalPages());
 		result.put("selectedPage", page);
@@ -50,6 +56,17 @@ public class ProductService {
 	public Product findUnique(Integer id) throws NotFoundException {
 		
 		Optional<Product> opt = productRepository.findById(id);
+		
+		if(opt.isEmpty())
+			throw new NotFoundException("Product not found");
+		
+		return opt.get();
+		
+	}
+	
+	public Product findUniqueWithCategoryAndProvince(Integer id) throws NotFoundException {
+		
+		Optional<Product> opt = productRepository.findByIdWithCategoryAndProvince(id);
 		
 		if(opt.isEmpty())
 			throw new NotFoundException("Product not found");
