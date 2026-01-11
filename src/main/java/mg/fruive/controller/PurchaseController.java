@@ -64,7 +64,7 @@ public class PurchaseController {
 		
 		try {
 			
-			model.addAttribute("purchase", purchaseService.findPurchase(purchaseId));
+			model.addAttribute("purchase", purchaseService.findPurchaseWithDetails(purchaseId));
 			model.addAttribute("fullname", purchaseService.provideAccountFullname(auth));
 			
 		} catch (NotFoundException e) {

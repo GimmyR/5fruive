@@ -22,7 +22,7 @@ public class PurchaseDetailController {
 		
 		try {
 			
-			Purchase purchase = purchaseService.findPurchase(purchaseId);
+			Purchase purchase = purchaseService.findPurchaseWithDetails(purchaseId);
 			model.addAttribute("details", purchase.getDetails());
 			
 		} catch (NotFoundException  e) {

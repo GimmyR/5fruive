@@ -1,6 +1,7 @@
 package mg.fruive.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Purchase {
 	private Account purchaser;
 	
 	@OneToMany(mappedBy = "purchase", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<PurchaseDetail> details;
+	private List<PurchaseDetail> details = new ArrayList<PurchaseDetail>();
 	
 	// METHODS :
 	

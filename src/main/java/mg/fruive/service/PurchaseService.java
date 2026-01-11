@@ -45,7 +45,7 @@ public class PurchaseService {
 		Purchase purchase = null;
 		
 		Account account = this.validateAccount(auth);
-		purchase = new Purchase(null, LocalDateTime.now(), account, null);
+		purchase = new Purchase(null, LocalDateTime.now(), account, new ArrayList<>());
 		purchase = purchaseRepository.save(purchase);
 		Cart cart = this.getCart();
 		this.saveDetails(purchase, cart);
@@ -122,6 +122,17 @@ public class PurchaseService {
 	public Purchase findPurchase(Integer id) throws NotFoundException {
 		
 		Optional<Purchase> purchase = purchaseRepository.findById(id);
+		
+		if(purchase.isEmpty())
+			throw new NotFoundException("Purchase not found");
+		
+		else return purchase.get();
+		
+	}
+	
+	public Purchase findPurchaseWithDetails(Integer id) throws NotFoundException {
+		
+		Optional<Purchase> purchase = purchaseRepository.findByIdWithDetails(id);
 		
 		if(purchase.isEmpty())
 			throw new NotFoundException("Purchase not found");

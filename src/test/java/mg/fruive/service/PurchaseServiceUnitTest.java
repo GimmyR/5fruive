@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class PurchaseServiceUnitTest {
 			public String getName() { return "johndoe"; }
 		};
 		
-		Account account = new Account(1, "John", "Doe", "johndoe", "mdpJohn", null);
+		Account account = new Account(1, "John", "Doe", "johndoe", "mdpJohn", new ArrayList<>());
 		when(accountRepository.findByUsername(auth.getName())).thenReturn(Optional.of(account));
 		String name = purchaseService.provideAccountFullname(auth);
 		assertEquals(true, name.equals(account.getFirstname() + " " + account.getLastname()));
@@ -124,11 +125,11 @@ public class PurchaseServiceUnitTest {
 			public String getName() { return "johndoe"; }
 		};
 		
-		Account account = new Account(1, "John", "Doe", "johndoe", "mdpJohn", null);
+		Account account = new Account(1, "John", "Doe", "johndoe", "mdpJohn", new ArrayList<>());
 		Product product = new Product(1, null, null, "Banana", (float) 1000.0, 2000.0, "kg", "banana.jpg");
 		Cart cart = new Cart();
 		cart.add(product.getId(), (float) 1, product.getInStock());
-		Purchase pur = new Purchase(1, null, account, null);
+		Purchase pur = new Purchase(1, null, account, new ArrayList<>());
 		
 		when(accountRepository.findByUsername(auth.getName())).thenReturn(Optional.of(account));
 		when(this.httpSession.getAttribute("cart")).thenReturn(cart);
@@ -137,7 +138,7 @@ public class PurchaseServiceUnitTest {
 		when(purchaseDetailRepository.save(any(PurchaseDetail.class))).thenReturn(new PurchaseDetail(1, pur, product, (float) 1, (float) 2000));
 		
 		Purchase purchase = purchaseService.buyProducts(auth, "65376");
-		assertEquals("Banana", purchase.getDetails().getFirst().getProduct().getName());
+		assertEquals("Banana", purchase.getDetails().getFirst().getId()); // A CHANGER LA VALEUR A COMPARER
 		
 	}
 
